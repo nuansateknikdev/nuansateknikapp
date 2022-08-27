@@ -1,7 +1,8 @@
-import { useEffect } from "react"
-import { useRouter } from "next/router"
-import { useAuth } from "../context/AuthUserContext"
-
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useAuth } from '../context/AuthUserContext'
+import SigninMain from '../src/sections/Signin'
+import { Spin } from 'antd'
 
 const Signin = () => {
   const { authUser, loading } = useAuth()
@@ -9,11 +10,14 @@ const Signin = () => {
 
   // Listen for changes on loading and authUser, redirect if needed
   useEffect(() => {
-    if(authUser !== null) router.push('/');
-
+    if (authUser !== null) router.push('/')
   }, [authUser, loading])
 
-  return loading ? <p>loading .....</p> : <h1>Login Page</h1>
+  return (
+    <Spin spinning={loading}>
+      <SigninMain />
+    </Spin>
+  )
 }
 
 export default Signin
