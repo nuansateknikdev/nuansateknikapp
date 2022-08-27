@@ -1,11 +1,11 @@
 import Link from 'next/link'
-
+import Layout from '../src/layout'
 export default function Home() {
   return (
-   <div>
+   <Layout>
       <Link href="/signin">
           <a>signin</a>
       </Link>
-   </div>
+   </Layout>
   )
 }
