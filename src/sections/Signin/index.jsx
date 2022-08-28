@@ -26,8 +26,10 @@ const SigninMain = () => {
             name="signinform"
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            autoComplete="off">
+            autoComplete="off"
+            requiredMark={false}>
             <Form.Item
+              label="Email"
               name="email"
               rules={[
                 {
@@ -39,6 +41,7 @@ const SigninMain = () => {
               <Input placeholder="nama@email.com" />
             </Form.Item>
             <Form.Item
+              label="Password"
               name="password"
               rules={[
                 {
@@ -50,7 +53,7 @@ const SigninMain = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" block>
                 Masuk
               </Button>
             </Form.Item>
