@@ -1,10 +1,44 @@
+@mixin inputSignin {
+  height: 50px;
+  border: 1px solid #e3e8ef;
+  border-radius: 6px;
+}
 #signin-page {
   .signin-page__content__form {
     width: 100%;
   }
-  .ant-form-item {
-    .ant-input {
-      height: 50px;
+  #signinform {
+    .ant-form-item {
+      margin-bottom: 25px;
+      &:last-child {
+        margin-bottom: 0;
+        padding-top: 24px;
+      }
+
+      .ant-form-item-row {
+        display: block;
+        .ant-form-item-label {
+          margin-bottom: 10px;
+          label {
+            display: block;
+            height: auto;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 19px;
+            color: #121926;
+            &::after {
+              content: '';
+            }
+          }
+        }
+      }
+      #signinform_email {
+        @include inputSignin;
+      }
+      .ant-input-password {
+        @include inputSignin;
+      }
     }
   }
 }
