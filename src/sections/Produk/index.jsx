@@ -1,7 +1,7 @@
 import Layout from '../../layout';
 import Tabel from '../../components/Tabel';
 import { Button, Space } from 'antd';
-import SearchProduct from '../../components/searchProduct';
+import SearchProduct from '../../components/SearchProduct';
 import styles from './produk.module.css';
 import FilterCategory from '../../components/FilterCategory';
 
