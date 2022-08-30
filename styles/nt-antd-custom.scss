@@ -11,3 +11,33 @@
   line-height: 19px;
   color: #ffffff;
 }
+.ant-card {
+  border-radius: 12px;
+  border: 0px;
+  // box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+}
+
+// custom menu item
+.ant-menu-inline {
+  border: 0;
+}
+.ant-menu-item-selected {
+  border-radius: 6px;
+}
+.ant-menu-inline .ant-menu-selected::after,
+.ant-menu-inline .ant-menu-item-selected::after {
+  transform: scaleY(0);
+  opacity: 1;
+  transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1),
+    opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+// custom tabel
+// .ant-table-row:hover {
+//   background-color: #13326b;
+//   color: #ffffff;
+//   text-shadow: 1px 2px #000000;
+//   box-shadow: 0px 0px 10px #ff0000;
+//   -webkit-box-shadow: 0px 0px 10px #ff0000;
+//   -moz-box-shadow: 0px 0px 10px #ff0000;
+// }

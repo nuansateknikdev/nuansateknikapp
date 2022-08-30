@@ -1,0 +1,27 @@
+.container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+  height: 100vh;
+  width: auto;
+  padding: 55px 0;
+  z-index: 99;
+  background-color: #ffff;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 281px;
+}
+.menu {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 281px;
+  width: 300px;
+}
