@@ -1,23 +1,34 @@
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { useAuth } from '../../context/AuthUserContext'
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useAuth } from '../../context/AuthUserContext';
+import Sidebar from '../components/Sidebar';
+import styles from './layout.module.css';
 
-const Layout = ({ children }) => {
-  const { authUser, loading, signOutAuth } = useAuth()
-  const router = useRouter()
+const Layout = ({ id = '', title = '', subTitle = '', children }) => {
+  const { authUser, loading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    if (authUser === null) router.push('/signin')
-  }, [authUser, loading])
+    if (authUser === null) router.push('/signin');
+  }, [authUser, loading, router]);
 
   return (
-    <div>
-      <nav>
-        <button onClick={signOutAuth}>SignOut</button>
-      </nav>
-      {children}
+    <div id={`${id}`} style={{ minHeight: '100vh' }}>
+      <Sidebar />
+      <main className={styles.container}>
+        <div className={styles.header}>
+          <div className={styles.title}>
+            {title.length ? <h1>{title}</h1> : null}
+            {subTitle.length ? <h2>{subTitle}</h2> : null}
+          </div>
+          <div className={styles.date}>
+            <p>Senin, 29-08-2022</p>
+          </div>
+        </div>
+        {children}
+      </main>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

@@ -1,0 +1,13 @@
+#beranda-page {
+  #sum-card {
+    margin-bottom: 30px;
+    .ant-card-body {
+      display: flex;
+      align-items: center;
+      padding: 32px;
+    }
+  }
+  #chart-card {
+    margin-bottom: 30px;
+  }
+}
