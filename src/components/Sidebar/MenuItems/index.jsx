@@ -1,17 +1,16 @@
-import { Menu } from 'antd';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { Menu } from 'antd'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const MenuItems = () => {
-  const location = useRouter();
+  const location = useRouter()
 
   return (
     <div id="sidebar-menu">
       <Menu
         mode="inline"
         selectedKeys={[location.pathname]}
-        defaultOpenKeys={'/'}
-      >
+        defaultOpenKeys={'/'}>
         <Menu.Item key="/beranda">
           <Link href="/beranda">
             <a>Beranda</a>
@@ -29,7 +28,7 @@ const MenuItems = () => {
         </Menu.Item>
       </Menu>
     </div>
-  );
-};
+  )
+}
 
-export default MenuItems;
+export default MenuItems

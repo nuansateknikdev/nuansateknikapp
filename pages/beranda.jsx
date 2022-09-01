@@ -1,7 +1,7 @@
-import BerandaMain from '../src/sections/Beranda';
+import BerandaMain from '../src/sections/Beranda'
 
 const Beranda = () => {
-  return <BerandaMain />;
-};
+  return <BerandaMain />
+}
 
-export default Beranda;
+export default Beranda

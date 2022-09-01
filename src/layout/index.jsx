@@ -1,18 +1,18 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useAuth } from '../../context/AuthUserContext';
-import Sidebar from '../components/Sidebar';
-import styles from './layout.module.css';
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useAuth } from '../../context/AuthUserContext'
+import Sidebar from '../components/Sidebar'
+import styles from './layout.module.css'
 
 const Layout = ({ id = '', title = '', subTitle = '', children }) => {
-  const { authUser, loading } = useAuth();
-  const router = useRouter();
+  const { authUser, loading } = useAuth()
+  const router = useRouter()
 
   useEffect(() => {
-    if (authUser === null) router.push('/signin');
-  }, [authUser, loading, router]);
+    if (!authUser) router.push('/signin')
+  }, [authUser, loading, router])
 
-  return (
+  return authUser ? (
     <div id={`${id}`} style={{ minHeight: '100vh' }}>
       <Sidebar />
       <main className={styles.container}>
@@ -28,7 +28,7 @@ const Layout = ({ id = '', title = '', subTitle = '', children }) => {
         {children}
       </main>
     </div>
-  );
-};
+  ) : null
+}
 
-export default Layout;
+export default Layout
