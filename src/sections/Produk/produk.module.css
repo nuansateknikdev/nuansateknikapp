@@ -1,5 +1,17 @@
+.actionGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
 .filterGroup {
   display: flex;
   gap: 15px;
-  margin-bottom: 40px;
+}
+.modalTittle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 48px;
 }

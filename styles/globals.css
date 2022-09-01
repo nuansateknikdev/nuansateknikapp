@@ -35,3 +35,8 @@ a {
   font-size: 16px;
   line-height: 19px;
 }
+
+.btn-outline {
+  color: #1e7ff0;
+  border-color: #1e7ff0;
+}
