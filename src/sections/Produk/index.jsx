@@ -1,11 +1,22 @@
-import Layout from '../../layout'
-import Tabel from '../../components/Tabel'
-import { Button, Space } from 'antd'
-import SearchProduct from '../../components/SearchProduct'
-import styles from './produk.module.css'
-import FilterCategory from '../../components/FilterCategory'
+import Tabel from '../../components/Tabel';
+import { Button, Modal, Space } from 'antd';
+import SearchProduct from '../../components/SearchProduct';
+import styles from './produk.module.css';
+import FilterCategory from '../../components/FilterCategory';
+import { useState } from 'react';
+import { CloseCircleOutlined } from '@ant-design/icons';
+import { FormProduk, FormStok } from './components';
+import IconAddSquare from '../../assets/icons/ic-add-square.svg';
+import IconEdit from '../../assets/icons/ic-edit.svg';
+import IconTrash from '../../assets/icons/ic-trash.svg';
+import Image from 'next/image';
+import ButtonIcon from '../../components/ButtonIcon';
 
 const ProdukMain = () => {
+  const [modalProductVisible, setModalProductVisible] = useState(false);
+  const [modalStockVisible, setModalStockVisible] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
+
   const columns = [
     {
       title: '#',
@@ -47,13 +58,23 @@ const ProdukMain = () => {
       key: 'action',
       render: (record) => (
         <Space size="middle" key={record.id}>
-          <Button>Tambah Stok</Button>
-          <Button>Edit</Button>
-          <Button>Hapus</Button>
+          <ButtonIcon
+            icon={IconAddSquare}
+            text="Tambah Stok"
+            type="primary"
+            onClick={() => setModalStockVisible(true)}
+          />
+          <ButtonIcon
+            className="btn-outline"
+            icon={IconEdit}
+            text="Edit"
+            onClick={() => setModalEditVisible(true)}
+          />
+          <ButtonIcon className="btn-outline" icon={IconTrash} text="Hapus" />
         </Space>
       ),
     },
-  ]
+  ];
 
   // dummy data
   const dataSource = [
@@ -81,17 +102,55 @@ const ProdukMain = () => {
       purchasePrice: '21.000',
       sellingPrice: '30.000',
     },
-  ]
+  ];
 
   return (
     <>
-      <div className={styles.filterGroup}>
-        <SearchProduct />
-        <FilterCategory />
+      <div className={styles.actionGroup}>
+        <div className={styles.filterGroup}>
+          <SearchProduct />
+          <FilterCategory />
+        </div>
+        <ButtonIcon
+          onClick={() => setModalProductVisible(true)}
+          type="primary"
+          text="Tambah Produk"
+          icon={IconAddSquare}
+        />
       </div>
       <Tabel columns={columns} dataSource={dataSource} />
+      <Modal
+        centered
+        closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
+        visible={modalProductVisible}
+        onCancel={() => setModalProductVisible(false)}
+        footer={false}
+      >
+        <p className={styles.modalTittle}>Tambah Produk</p>
+        <FormProduk />
+      </Modal>
+      <Modal
+        centered
+        closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
+        visible={modalStockVisible}
+        onCancel={() => setModalStockVisible(false)}
+        footer={false}
+      >
+        <p className={styles.modalTittle}>Tambah Stok</p>
+        <FormStok />
+      </Modal>
+      <Modal
+        centered
+        closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
+        visible={modalEditVisible}
+        onCancel={() => setModalEditVisible(false)}
+        footer={false}
+      >
+        <p className={styles.modalTittle}>Edit Produk</p>
+        <FormProduk />
+      </Modal>
     </>
-  )
-}
+  );
+};
 
-export default ProdukMain
+export default ProdukMain;
