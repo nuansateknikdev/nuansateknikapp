@@ -3,13 +3,13 @@ const { Option } = Select;
 
 const FilterCategory = ({ setFilterCategoryField, categoryData }) => {
   return (
-    <div id="program-page__filter-category" className="mindo-shadow">
+    <div id="filter-category" className="">
       <Select
         // bordered={false}
         size="large"
         allowClear
         showSearch
-        placeholder="Cari kategori"
+        placeholder="--Kategori--"
         optionFilterProp="children"
         // onChange={(value) => {
         //   value ? setFilterCategoryField(value) : setFilterCategoryField('');
