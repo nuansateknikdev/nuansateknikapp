@@ -1,7 +1,7 @@
-import Layout from '../../layout';
+import Layout from '../../layout'
 
 const TransaksiMain = () => {
-  return <Layout id="transaksi-page" title="Transaksi"></Layout>;
-};
+  return <div>test</div>
+}
 
-export default TransaksiMain;
+export default TransaksiMain

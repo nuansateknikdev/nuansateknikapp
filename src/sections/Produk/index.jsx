@@ -1,9 +1,9 @@
-import Layout from '../../layout';
-import Tabel from '../../components/Tabel';
-import { Button, Space } from 'antd';
-import SearchProduct from '../../components/SearchProduct';
-import styles from './produk.module.css';
-import FilterCategory from '../../components/FilterCategory';
+import Layout from '../../layout'
+import Tabel from '../../components/Tabel'
+import { Button, Space } from 'antd'
+import SearchProduct from '../../components/SearchProduct'
+import styles from './produk.module.css'
+import FilterCategory from '../../components/FilterCategory'
 
 const ProdukMain = () => {
   const columns = [
@@ -53,7 +53,7 @@ const ProdukMain = () => {
         </Space>
       ),
     },
-  ];
+  ]
 
   // dummy data
   const dataSource = [
@@ -81,17 +81,17 @@ const ProdukMain = () => {
       purchasePrice: '21.000',
       sellingPrice: '30.000',
     },
-  ];
+  ]
 
   return (
-    <Layout id="produk-page" title="Produk">
+    <>
       <div className={styles.filterGroup}>
         <SearchProduct />
         <FilterCategory />
       </div>
       <Tabel columns={columns} dataSource={dataSource} />
-    </Layout>
-  );
-};
+    </>
+  )
+}
 
-export default ProdukMain;
+export default ProdukMain

@@ -1,7 +1,6 @@
-import SumCard from '../../components/SumCard';
-import ChartCard from '../../components/ChartCard';
-import Tabel from '../../components/Tabel';
-import Layout from '../../layout';
+import SumCard from '../../components/SumCard'
+import ChartCard from '../../components/ChartCard'
+import Tabel from '../../components/Tabel'
 
 const BerandaMain = () => {
   const columns = [
@@ -52,7 +51,7 @@ const BerandaMain = () => {
       dataIndex: 'countTotal',
       key: 'countTotal',
     },
-  ];
+  ]
 
   // dummy data
   const dataSource = [
@@ -110,19 +109,15 @@ const BerandaMain = () => {
       ],
       countTotal: 'Rp 235.000',
     },
-  ];
+  ]
 
   return (
-    <Layout
-      id="beranda-page"
-      title="Dashboard"
-      subTitle="Selamat datang, John Doe"
-    >
+    <div>
       <SumCard />
       <ChartCard />
       <Tabel columns={columns} dataSource={dataSource} />
-    </Layout>
-  );
-};
+    </div>
+  )
+}
 
-export default BerandaMain;
+export default BerandaMain

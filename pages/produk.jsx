@@ -1,7 +1,12 @@
-import ProdukMain from '../src/sections/Produk';
+import ProdukMain from '../src/sections/Produk'
+import Layout from '../src/layout'
 
 const Produk = () => {
-  return <ProdukMain />;
-};
+  return (
+    <Layout id="produk-page" title="Produk">
+      <ProdukMain />
+    </Layout>
+  )
+}
 
-export default Produk;
+export default Produk
