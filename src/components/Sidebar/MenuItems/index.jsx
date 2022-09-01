@@ -11,8 +11,8 @@ const MenuItems = () => {
         mode="inline"
         selectedKeys={[location.pathname]}
         defaultOpenKeys={'/'}>
-        <Menu.Item key="/beranda">
-          <Link href="/beranda">
+        <Menu.Item key="/">
+          <Link href="/">
             <a>Beranda</a>
           </Link>
         </Menu.Item>

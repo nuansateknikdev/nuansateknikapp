@@ -1,7 +1,13 @@
 import Layout from '../src/layout'
+import BerandaMain from '../src/sections/Beranda'
 
 export default function Home() {
   return (
-    <Layout id="home" title="Home" subTitle="Selamat datang, John Doe"></Layout>
+    <Layout
+      id="beranda-page"
+      title="Dashboard"
+      subTitle="Selamat datang, John Doe">
+      <BerandaMain />
+    </Layout>
   )
 }
