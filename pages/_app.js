@@ -9,6 +9,7 @@ import '../styles/nt-antd-custom.scss'
 import '../styles/signin.scss'
 import '../styles/beranda.scss'
 import '../styles/produk.scss'
+import '../styles/sidebar.scss'
 
 function MyApp({ Component, pageProps }) {
   return (

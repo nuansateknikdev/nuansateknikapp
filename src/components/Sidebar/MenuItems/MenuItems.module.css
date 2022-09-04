@@ -1,0 +1,13 @@
+.sidebarMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menuItem {
+  padding: 0;
+}
+
+.menuItem.ant-menu-item-selected {
+  padding: 0;
+}
