@@ -47,13 +47,15 @@ const emptyData = {
   category: { id: undefined, name: undefined },
 }
 
-const FormTambahProduk = ({ initData = emptyData, caterogryData }) => {
+const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState(initData.image)
   const [image, setImage] = useState(null)
-  const [imageAller, setImageAlert] = useState('')
-
   const [productForm] = Form.useForm()
+
+  useEffect(() => {
+    setImageUrl(initData.image)
+  }, [initData])
 
   useEffect(() => {
     if (image && typeof image === 'object')
@@ -113,6 +115,7 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData }) => {
   const getCategoryName = (id) => {
     return caterogryData.find((category) => category.id === id)
   }
+
   // Handle on submit
   const handlingUploadError = (error, title) => {
     console.error(error)
@@ -121,7 +124,7 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData }) => {
   }
 
   const onFinish = (values) => {
-    console.log('Success:', values)
+    console.log(values)
     setLoading(true)
     if (initData.id === null) handleAddData(values)
   }
@@ -129,7 +132,7 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData }) => {
   const handleAddData = (formData) => {
     const newRef = doc(collection(firestore, docRef))
     const storageRef = ref(storage, storageDirectory + newRef.id)
-    const uploadTask = uploadBytesResumable(storageRef, formData.image)
+    const uploadTask = uploadBytesResumable(storageRef, image)
 
     uploadTask.on(
       'state_changed',
@@ -146,6 +149,7 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData }) => {
               ? getCategoryName(formData.category)
               : { id: null, name: null },
             image: `${imageUrl}`,
+            stock: 0,
             createdAt: serverTimestamp(),
             updateAt: serverTimestamp(),
           })
@@ -244,9 +248,9 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData }) => {
             beforeUpload={beforeUpload}
             // onChange={handleChange}
           >
-            {imageUrl ? (
+            {imageUrl || initData.image !== null ? (
               <div className={styles.imgPreview}>
-                <img src={imageUrl} alt="image" />
+                <img src={imageUrl || initData.image} alt="image" />
               </div>
             ) : (
               uploadButton

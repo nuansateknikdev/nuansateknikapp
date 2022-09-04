@@ -17,27 +17,27 @@ export const getServerSideProps = async () => {
       })
     })
 
-    // const queryProduct = query(
-    //   collection(firestore, 'product'),
-    //   orderBy('created_at')
-    // )
+    const queryProduct = query(
+      collection(firestore, 'product'),
+      orderBy('createdAt')
+    )
 
-    // const querySnapshotsProduct = await getDocs(queryProduct)
+    const querySnapshotsProduct = await getDocs(queryProduct)
 
-    // querySnapshotsProduct.forEach((product) => {
-    //   productData.push({
-    //     id: product.id,
-    //     name: product.data().name,
-    //     purchasePrice: product.data().purchasePrice,
-    //     sellingPrice: product.data().sellingPrice,
-    //     sellingPrice: product.data().sellingPrice,
-    //     stock: product.data().stock,
-    //     category: {
-    //       id: product.data().category.id,
-    //       name: product.data().category.name,
-    //     },
-    //   })
-    // })
+    querySnapshotsProduct.forEach((product) => {
+      productData.push({
+        id: product.id,
+        name: product.data().name,
+        purchasePrice: product.data().purchasePrice,
+        sellingPrice: product.data().sellingPrice,
+        stock: product.data().stock,
+        category: {
+          id: product.data().category.id,
+          name: product.data().category.name,
+        },
+        image: product.data().image,
+      })
+    })
   } catch (err) {
     console.log(err)
     return
@@ -51,13 +51,11 @@ export const getServerSideProps = async () => {
   }
 }
 
-const Produk = ({ caterogryData = [], productData = [] }) => {
-  console.log(productData)
-  console.log(caterogryData.length)
+const Produk = ({ caterogryData = null, productData = null }) => {
   return (
     <Layout id="produk-page" title="Produk" subTitle="Daftar nama-nama produk">
-      {caterogryData.length ? (
-        <ProdukMain caterogryData={caterogryData} />
+      {caterogryData !== null && productData !== null ? (
+        <ProdukMain caterogryData={caterogryData} productData={productData} />
       ) : (
         <Spin spinning={true}></Spin>
       )}
