@@ -1,14 +1,13 @@
-import { Select } from 'antd';
-const { Option } = Select;
+import { Select } from 'antd'
+const { Option } = Select
 
-const FilterCategory = ({ setFilterCategoryField, categoryData }) => {
+const FilterCategory = ({ setFilterCategoryField, caterogryData }) => {
   return (
     <div id="filter-category" className="">
       <Select
         // bordered={false}
         size="large"
         allowClear
-        showSearch
         placeholder="--Kategori--"
         optionFilterProp="children"
         // onChange={(value) => {
@@ -23,10 +22,14 @@ const FilterCategory = ({ setFilterCategoryField, categoryData }) => {
         //     .localeCompare(optionB.children.toLowerCase())
         // }
       >
-        <Option></Option>
+        {caterogryData.map((item) => (
+          <Option value={item.name} key={item.id}>
+            {item.name}
+          </Option>
+        ))}
       </Select>
     </div>
-  );
-};
+  )
+}
 
-export default FilterCategory;
+export default FilterCategory

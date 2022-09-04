@@ -1,122 +1,33 @@
-import Tabel from '../../components/Tabel';
-import { Button, Modal, Space } from 'antd';
-import SearchProduct from '../../components/SearchProduct';
-import styles from './produk.module.css';
-import FilterCategory from '../../components/FilterCategory';
-import { useState } from 'react';
-import { CloseCircleOutlined } from '@ant-design/icons';
-import { FormProduk, FormStok } from './components';
-import IconAddSquare from '../../assets/icons/ic-add-square.svg';
-import IconEdit from '../../assets/icons/ic-edit.svg';
-import IconTrash from '../../assets/icons/ic-trash.svg';
-import Image from 'next/image';
-import ButtonIcon from '../../components/ButtonIcon';
+import { CloseCircleOutlined } from '@ant-design/icons'
+import { Modal } from 'antd'
+import { useState } from 'react'
+import IconAddSquare from '../../assets/icons/ic-add-square.svg'
+import ButtonIcon from '../../components/ButtonIcon'
+import FilterCategory from '../../components/FilterCategory'
+import SearchProduct from '../../components/SearchProduct'
+import Tabel from '../../components/Tabel'
+import { FormProduk, FormStok } from './components'
+import styles from './produk.module.css'
+import { columns, dataSource } from './produk.utils'
 
-const ProdukMain = () => {
-  const [modalProductVisible, setModalProductVisible] = useState(false);
-  const [modalStockVisible, setModalStockVisible] = useState(false);
-  const [modalEditVisible, setModalEditVisible] = useState(false);
-
-  const columns = [
-    {
-      title: '#',
-      dataIndex: 'no',
-      key: 'no',
-    },
-    {
-      title: 'Gambar',
-      dataIndex: 'image',
-      key: 'image',
-    },
-    {
-      title: 'Nama Produk',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Kategori',
-      dataIndex: 'category',
-      key: 'category',
-    },
-    {
-      title: 'Stok',
-      dataIndex: 'stock',
-      key: 'stock',
-    },
-    {
-      title: 'Harga Beli',
-      dataIndex: 'purchasePrice',
-      key: 'purchasePrice',
-    },
-    {
-      title: 'Harga Jual',
-      dataIndex: 'sellingPrice',
-      key: 'sellingPrice',
-    },
-    {
-      title: 'Aksi',
-      key: 'action',
-      render: (record) => (
-        <Space size="middle" key={record.id}>
-          <ButtonIcon
-            icon={IconAddSquare}
-            text="Tambah Stok"
-            type="primary"
-            onClick={() => setModalStockVisible(true)}
-          />
-          <ButtonIcon
-            className="btn-outline"
-            icon={IconEdit}
-            text="Edit"
-            onClick={() => setModalEditVisible(true)}
-          />
-          <ButtonIcon className="btn-outline" icon={IconTrash} text="Hapus" />
-        </Space>
-      ),
-    },
-  ];
-
-  // dummy data
-  const dataSource = [
-    {
-      no: '1',
-      name: 'Lampu Plihips',
-      category: 'Lampu',
-      stock: '25',
-      purchasePrice: '21.000',
-      sellingPrice: '30.000',
-    },
-    {
-      no: '2',
-      name: 'Lampu Plihips',
-      category: 'Lampu',
-      stock: '25',
-      purchasePrice: '21.000',
-      sellingPrice: '30.000',
-    },
-    {
-      no: '3',
-      name: 'Lampu Plihips',
-      category: 'Lampu',
-      stock: '25',
-      purchasePrice: '21.000',
-      sellingPrice: '30.000',
-    },
-  ];
+const ProdukMain = ({ caterogryData }) => {
+  const [modalProductVisible, setModalProductVisible] = useState(false)
+  const [modalStockVisible, setModalStockVisible] = useState(false)
+  const [modalEditVisible, setModalEditVisible] = useState(false)
 
   return (
     <>
       <div className={styles.actionGroup}>
         <div className={styles.filterGroup}>
           <SearchProduct />
-          <FilterCategory />
+          <FilterCategory caterogryData={caterogryData} />
         </div>
         <ButtonIcon
           onClick={() => setModalProductVisible(true)}
           type="primary"
-          text="Tambah Produk"
-          icon={IconAddSquare}
-        />
+          text="Tambah Produk">
+          <IconAddSquare />
+        </ButtonIcon>
       </div>
       <Tabel columns={columns} dataSource={dataSource} />
       <Modal
@@ -124,18 +35,16 @@ const ProdukMain = () => {
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalProductVisible}
         onCancel={() => setModalProductVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Produk</p>
-        <FormProduk />
+        <FormProduk caterogryData={caterogryData} />
       </Modal>
       <Modal
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalStockVisible}
         onCancel={() => setModalStockVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Stok</p>
         <FormStok />
       </Modal>
@@ -144,13 +53,12 @@ const ProdukMain = () => {
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalEditVisible}
         onCancel={() => setModalEditVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Edit Produk</p>
-        <FormProduk />
+        <FormProduk caterogryData={caterogryData} />
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ProdukMain;
+export default ProdukMain
