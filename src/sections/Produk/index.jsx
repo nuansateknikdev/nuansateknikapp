@@ -9,12 +9,10 @@ import { FormProduk, FormStok } from './components'
 import styles from './produk.module.css'
 import { firestore } from '../../../lib/initFirebase'
 import { doc, getDoc } from 'firebase/firestore'
-import { dataSource } from './produk.utils'
 
 import { Button, Modal, Space, Spin } from 'antd'
 import IconEdit from '../../assets/icons/ic-edit.svg'
 import IconTrash from '../../assets/icons/ic-trash.svg'
-import { async } from '@firebase/util'
 
 const ProdukMain = ({ caterogryData, productData }) => {
   const [modalProductVisible, setModalProductVisible] = useState(false)
