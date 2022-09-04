@@ -47,6 +47,8 @@ const emptyData = {
   category: { id: undefined, name: undefined },
 }
 
+const { Option } = Select
+
 const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState(initData.image)
