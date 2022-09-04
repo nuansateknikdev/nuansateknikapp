@@ -1,11 +1,11 @@
-import { Col, Row } from 'antd';
-import Card from 'antd/lib/card/Card';
-import styles from './chartcard.module.css';
-import exampleChart from '../../assets/images/dashboard/exampleChart.jpg';
-import iconGreenBox from '../../assets/images/dashboard/icon-green-box.svg';
-import iconOrangeBox from '../../assets/images/dashboard/icon-orange-box.svg';
-import Image from 'next/image';
-import { Button } from 'antd';
+import { Col, Row } from 'antd'
+import Card from 'antd/lib/card/Card'
+import styles from './chartcard.module.css'
+import exampleChart from '../../assets/images/dashboard/exampleChart.jpg'
+import IconGreenBox from '../../assets/images/dashboard/icon-green-box.svg'
+import IconOrangeBox from '../../assets/images/dashboard/icon-orange-box.svg'
+import Image from 'next/image'
+import { Button } from 'antd'
 
 const ChartCard = () => {
   return (
@@ -23,9 +23,11 @@ const ChartCard = () => {
               <div className={styles.stock}>
                 <div
                   className={styles.cardbox}
-                  style={{ border: '1px solid #6fcf97', background: '#ebfff3' }}
-                >
-                  <Image src={iconGreenBox} alt="chart" />
+                  style={{
+                    border: '1px solid #6fcf97',
+                    background: '#ebfff3',
+                  }}>
+                  <IconGreenBox />
                   <p>1.291</p>
                   <p>items</p>
                 </div>
@@ -40,9 +42,11 @@ const ChartCard = () => {
               <div className={styles.stock}>
                 <div
                   className={styles.cardbox}
-                  style={{ border: '1px solid #F2C94C', background: '#FFF9E8' }}
-                >
-                  <Image src={iconOrangeBox} alt="chart" />
+                  style={{
+                    border: '1px solid #F2C94C',
+                    background: '#FFF9E8',
+                  }}>
+                  <IconOrangeBox />
                   <p>1.291</p>
                   <p>items</p>
                 </div>
@@ -59,7 +63,7 @@ const ChartCard = () => {
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
-export default ChartCard;
+export default ChartCard

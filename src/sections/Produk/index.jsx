@@ -1,32 +1,43 @@
-import Tabel from '../../components/Tabel';
-import { Button, Modal, Space } from 'antd';
-import SearchProduct from '../../components/SearchProduct';
-import styles from './produk.module.css';
-import FilterCategory from '../../components/FilterCategory';
-import { useState } from 'react';
-import { CloseCircleOutlined } from '@ant-design/icons';
-import { FormProduk, FormStok } from './components';
-import IconAddSquare from '../../assets/icons/ic-add-square.svg';
-import IconEdit from '../../assets/icons/ic-edit.svg';
-import IconTrash from '../../assets/icons/ic-trash.svg';
-import Image from 'next/image';
-import ButtonIcon from '../../components/ButtonIcon';
+import { CloseCircleOutlined } from '@ant-design/icons'
+import { useState } from 'react'
+import IconAddSquare from '../../assets/icons/ic-add-square.svg'
+import ButtonIcon from '../../components/ButtonIcon'
+import FilterCategory from '../../components/FilterCategory'
+import SearchProduct from '../../components/SearchProduct'
+import Tabel from '../../components/Tabel'
+import { FormProduk, FormStok } from './components'
+import styles from './produk.module.css'
+import { firestore } from '../../../lib/initFirebase'
+import { doc, getDoc } from 'firebase/firestore'
+import { dataSource } from './produk.utils'
 
-const ProdukMain = () => {
-  const [modalProductVisible, setModalProductVisible] = useState(false);
-  const [modalStockVisible, setModalStockVisible] = useState(false);
-  const [modalEditVisible, setModalEditVisible] = useState(false);
+import { Button, Modal, Space, Spin } from 'antd'
+import IconEdit from '../../assets/icons/ic-edit.svg'
+import IconTrash from '../../assets/icons/ic-trash.svg'
+import { async } from '@firebase/util'
+
+const ProdukMain = ({ caterogryData, productData }) => {
+  const [modalProductVisible, setModalProductVisible] = useState(false)
+  const [modalStockVisible, setModalStockVisible] = useState(false)
+  const [modalEditVisible, setModalEditVisible] = useState(false)
+  const [updateData, setUpdateData] = useState(null)
 
   const columns = [
     {
       title: '#',
       dataIndex: 'no',
       key: 'no',
+      render: (text, record, index) => {
+        return <span>{index + 1}</span>
+      },
     },
     {
       title: 'Gambar',
       dataIndex: 'image',
       key: 'image',
+      render: (text, record) => {
+        return <img src={text} alt="" style={{ height: '200px' }} />
+      },
     },
     {
       title: 'Nama Produk',
@@ -37,6 +48,9 @@ const ProdukMain = () => {
       title: 'Kategori',
       dataIndex: 'category',
       key: 'category',
+      render: (text, record) => {
+        return <p>{record.category.name}</p>
+      },
     },
     {
       title: 'Stok',
@@ -56,86 +70,82 @@ const ProdukMain = () => {
     {
       title: 'Aksi',
       key: 'action',
-      render: (record) => (
+      render: (text, record, index) => (
         <Space size="middle" key={record.id}>
           <ButtonIcon
-            icon={IconAddSquare}
             text="Tambah Stok"
             type="primary"
-            onClick={() => setModalStockVisible(true)}
-          />
+            onClick={() => setModalStockVisible(true)}>
+            <IconAddSquare />
+          </ButtonIcon>
           <ButtonIcon
             className="btn-outline"
-            icon={IconEdit}
             text="Edit"
-            onClick={() => setModalEditVisible(true)}
-          />
-          <ButtonIcon className="btn-outline" icon={IconTrash} text="Hapus" />
+            onClick={() => handleOnUpdateBtnClick(record.id)}>
+            <IconEdit />
+          </ButtonIcon>
+          <ButtonIcon className="btn-outline" text="Hapus">
+            <IconTrash />
+          </ButtonIcon>
         </Space>
       ),
     },
-  ];
+  ]
 
-  // dummy data
-  const dataSource = [
-    {
-      no: '1',
-      name: 'Lampu Plihips',
-      category: 'Lampu',
-      stock: '25',
-      purchasePrice: '21.000',
-      sellingPrice: '30.000',
-    },
-    {
-      no: '2',
-      name: 'Lampu Plihips',
-      category: 'Lampu',
-      stock: '25',
-      purchasePrice: '21.000',
-      sellingPrice: '30.000',
-    },
-    {
-      no: '3',
-      name: 'Lampu Plihips',
-      category: 'Lampu',
-      stock: '25',
-      purchasePrice: '21.000',
-      sellingPrice: '30.000',
-    },
-  ];
+  const handleOnUpdateBtnClick = async (id) => {
+    console.log(id)
+    setModalEditVisible(true)
+    try {
+      const docRef = doc(firestore, 'product', id)
+      const docSnap = await getDoc(docRef)
+      console.log(docSnap.data())
+      setUpdateData({
+        id: docSnap.id,
+        name: docSnap.data().name,
+        purchasePrice: docSnap.data().purchasePrice,
+        sellingPrice: docSnap.data().sellingPrice,
+        stock: docSnap.data().stock,
+        image: docSnap.data().image,
+        category: {
+          id: docSnap.data().category.id,
+          name: docSnap.data().category.name,
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <>
       <div className={styles.actionGroup}>
         <div className={styles.filterGroup}>
           <SearchProduct />
-          <FilterCategory />
+          <FilterCategory caterogryData={caterogryData} />
         </div>
         <ButtonIcon
           onClick={() => setModalProductVisible(true)}
           type="primary"
-          text="Tambah Produk"
-          icon={IconAddSquare}
-        />
+          text="Tambah Produk">
+          <IconAddSquare />
+        </ButtonIcon>
       </div>
-      <Tabel columns={columns} dataSource={dataSource} />
+      <Tabel columns={columns} dataSource={productData} />
       <Modal
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalProductVisible}
         onCancel={() => setModalProductVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Produk</p>
-        <FormProduk />
+        <FormProduk caterogryData={caterogryData} />
       </Modal>
       <Modal
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalStockVisible}
         onCancel={() => setModalStockVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Stok</p>
         <FormStok />
       </Modal>
@@ -143,14 +153,22 @@ const ProdukMain = () => {
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalEditVisible}
-        onCancel={() => setModalEditVisible(false)}
-        footer={false}
-      >
+        onCancel={() => {
+          setUpdateData(null)
+          setModalEditVisible(false)
+        }}
+        footer={false}>
         <p className={styles.modalTittle}>Edit Produk</p>
-        <FormProduk />
+        {updateData ? (
+          <FormProduk initData={updateData} caterogryData={caterogryData} />
+        ) : (
+          <Spin>
+            <FormProduk />
+          </Spin>
+        )}
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ProdukMain;
+export default ProdukMain
