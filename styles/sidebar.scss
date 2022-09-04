@@ -1,0 +1,40 @@
+#sidebar-menu {
+  ul {
+    li {
+      margin: 0;
+      padding: 0 !important;
+      width: 100%;
+      height: 56px;
+      transition: unset !important;
+      &:not(:last-child) {
+        margin-bottom: 15px;
+      }
+      &.ant-menu-item-selected,
+      &:hover {
+        background: #eef6ff;
+        border-radius: 6px;
+        a {
+          color: #1e7ff0;
+          svg {
+            path {
+              stroke: #1e7ff0;
+            }
+          }
+        }
+      }
+      a {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 16px 20px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #505359;
+      }
+    }
+  }
+}
