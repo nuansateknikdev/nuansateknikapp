@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber } from 'antd';
+import { Button, Form, Input, InputNumber } from 'antd'
 
 const FormTambahStok = () => {
   return (
@@ -14,8 +14,7 @@ const FormTambahStok = () => {
         label="Stok Barang"
         name="stock"
         initialValue={8}
-        extra="*stok saat ini"
-      >
+        extra="*stok saat ini">
         <Input size="large" readOnly />
       </Form.Item>
       <Form.Item name="stock" extra="*lakukan penambahan stok disini">
@@ -27,7 +26,7 @@ const FormTambahStok = () => {
         </Button>
       </Form.Item>
     </Form>
-  );
-};
+  )
+}
 
-export default FormTambahStok;
+export default FormTambahStok
