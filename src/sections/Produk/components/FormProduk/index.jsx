@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { useEffect } from 'react'
 import {
@@ -49,7 +50,7 @@ const emptyData = {
 
 const { Option } = Select
 
-const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
+const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState(initData.image)
   const [image, setImage] = useState(null)
@@ -115,7 +116,7 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
 
   // Handle Get Category Name
   const getCategoryName = (id) => {
-    return caterogryData.find((category) => category.id === id)
+    return categoryData.find((category) => category.id === id)
   }
 
   // Handle on submit
@@ -156,7 +157,7 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
             updateAt: serverTimestamp(),
           })
           setLoading(false)
-          message.success('Berhasil Upload Image')
+          message.success('Berhasil Menambahkan Produk')
           window.location.reload(false)
         } catch (error) {
           handlingUploadError(error, 'Tambah Produk Gagal')
@@ -179,7 +180,8 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
           sellingPrice: initData.sellingPrice,
           purchasePrice: initData.purchasePrice,
           category: initData.category.id,
-        }}>
+        }}
+      >
         <Form.Item
           label="Nama Produk"
           name="name"
@@ -188,12 +190,13 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
               required: true,
               message: 'Nama produk belum di isi',
             },
-          ]}>
+          ]}
+        >
           <Input placeholder="Masukkan nama produk" size="large" />
         </Form.Item>
         <Form.Item label="Kategori Produk" name="category">
           <Select placeholder="--Kategori Produk--" size="large" allowClear>
-            {caterogryData.map((item) => (
+            {categoryData.map((item) => (
               <Option value={item.id} key={item.id}>
                 {item.name}
               </Option>
@@ -208,11 +211,17 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
               required: true,
               message: 'Harga beli belum di isi',
             },
-          ]}>
+          ]}
+        >
           <InputNumber
             placeholder="Masukkan harga beli produk"
             size="large"
             style={{ width: '100%' }}
+            formatter={(value) => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+            prefix="Rp "
+            min={0}
+            step={1000}
           />
         </Form.Item>
         <Form.Item
@@ -223,11 +232,17 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
               required: true,
               message: 'Harga beli belum di isi',
             },
-          ]}>
+          ]}
+        >
           <InputNumber
             placeholder="Masukkan harga jual produk"
             size="large"
             style={{ width: '100%' }}
+            formatter={(value) => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+            prefix="Rp "
+            min={0}
+            step={1000}
           />
         </Form.Item>
         <Form.Item
@@ -238,7 +253,8 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
               required: true,
               message: 'Gambar belum di isi',
             },
-          ]}>
+          ]}
+        >
           <Upload
             accept="image/png, image/jpeg, image/jpg"
             style={{ width: '100%' }}
@@ -264,7 +280,8 @@ const FormTambahProduk = ({ initData = emptyData, caterogryData = [] }) => {
             type="primary"
             htmlType="submit"
             block
-            className={styles.btnSumbit}>
+            className={styles.btnSumbit}
+          >
             Tambah
           </Button>
         </Form.Item>

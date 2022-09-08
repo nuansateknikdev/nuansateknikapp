@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { CloseCircleOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import IconAddSquare from '../../assets/icons/ic-add-square.svg'
@@ -8,17 +9,24 @@ import Tabel from '../../components/Tabel'
 import { FormProduk, FormStok } from './components'
 import styles from './produk.module.css'
 import { firestore } from '../../../lib/initFirebase'
-import { doc, getDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc } from 'firebase/firestore'
 
-import { Button, Modal, Space, Spin } from 'antd'
+import { message, Modal, Space, Spin } from 'antd'
 import IconEdit from '../../assets/icons/ic-edit.svg'
 import IconTrash from '../../assets/icons/ic-trash.svg'
+import IconTrashXL from '../../assets/icons/ic-trash-xl.svg'
+import Image from 'next/image'
 
-const ProdukMain = ({ caterogryData, productData }) => {
+const ProdukMain = ({ categoryData, productData }) => {
   const [modalProductVisible, setModalProductVisible] = useState(false)
   const [modalStockVisible, setModalStockVisible] = useState(false)
   const [modalEditVisible, setModalEditVisible] = useState(false)
+  const [modalDeleteVisible, setModalDeleteVisible] = useState(false)
   const [updateData, setUpdateData] = useState(null)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const [idRecord, setIdRecord] = useState(null)
+
+  console.log(productData)
 
   const columns = [
     {
@@ -34,7 +42,11 @@ const ProdukMain = ({ caterogryData, productData }) => {
       dataIndex: 'image',
       key: 'image',
       render: (text, record) => {
-        return <img src={text} alt="" style={{ height: '200px' }} />
+        return (
+          <div className={styles.imageContainer}>
+            <img src={record.image} alt="image" />
+          </div>
+        )
       },
     },
     {
@@ -47,7 +59,9 @@ const ProdukMain = ({ caterogryData, productData }) => {
       dataIndex: 'category',
       key: 'category',
       render: (text, record) => {
-        return <p>{record.category.name}</p>
+        return (
+          <p>{record.category.name === null ? '-' : record.category.name}</p>
+        )
       },
     },
     {
@@ -59,11 +73,23 @@ const ProdukMain = ({ caterogryData, productData }) => {
       title: 'Harga Beli',
       dataIndex: 'purchasePrice',
       key: 'purchasePrice',
+      render: (purchasePrice) =>
+        `Rp ${
+          purchasePrice.toString().length > 3
+            ? purchasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+            : purchasePrice
+        }`,
     },
     {
       title: 'Harga Jual',
       dataIndex: 'sellingPrice',
       key: 'sellingPrice',
+      render: (sellingPrice) =>
+        `Rp ${
+          sellingPrice.toString().length > 3
+            ? sellingPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+            : sellingPrice
+        }`,
     },
     {
       title: 'Aksi',
@@ -73,16 +99,24 @@ const ProdukMain = ({ caterogryData, productData }) => {
           <ButtonIcon
             text="Tambah Stok"
             type="primary"
-            onClick={() => setModalStockVisible(true)}>
+            onClick={() => setModalStockVisible(true)}
+          >
             <IconAddSquare />
           </ButtonIcon>
           <ButtonIcon
             className="btn-outline"
             text="Edit"
-            onClick={() => handleOnUpdateBtnClick(record.id)}>
+            onClick={() => handleOnUpdateBtnClick(record.id)}
+          >
             <IconEdit />
           </ButtonIcon>
-          <ButtonIcon className="btn-outline" text="Hapus">
+          <ButtonIcon
+            className="btn-outline"
+            text="Hapus"
+            onClick={() => {
+              setModalDeleteVisible(true), setIdRecord(record.id)
+            }}
+          >
             <IconTrash />
           </ButtonIcon>
         </Space>
@@ -114,17 +148,32 @@ const ProdukMain = ({ caterogryData, productData }) => {
     }
   }
 
+  const handleOnDeleteBtnClick = async (id) => {
+    console.log(id)
+    setConfirmLoading(true)
+    try {
+      const docRef = doc(firestore, 'product', id)
+      await deleteDoc(docRef)
+      setConfirmLoading(false)
+      message.success('Berhasil Menghapus Produk')
+      window.location.reload(false)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <>
       <div className={styles.actionGroup}>
         <div className={styles.filterGroup}>
           <SearchProduct />
-          <FilterCategory caterogryData={caterogryData} />
+          <FilterCategory categoryData={categoryData} />
         </div>
         <ButtonIcon
           onClick={() => setModalProductVisible(true)}
           type="primary"
-          text="Tambah Produk">
+          text="Tambah Produk"
+        >
           <IconAddSquare />
         </ButtonIcon>
       </div>
@@ -134,16 +183,18 @@ const ProdukMain = ({ caterogryData, productData }) => {
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalProductVisible}
         onCancel={() => setModalProductVisible(false)}
-        footer={false}>
+        footer={false}
+      >
         <p className={styles.modalTittle}>Tambah Produk</p>
-        <FormProduk caterogryData={caterogryData} />
+        <FormProduk categoryData={categoryData} />
       </Modal>
       <Modal
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalStockVisible}
         onCancel={() => setModalStockVisible(false)}
-        footer={false}>
+        footer={false}
+      >
         <p className={styles.modalTittle}>Tambah Stok</p>
         <FormStok />
       </Modal>
@@ -155,15 +206,32 @@ const ProdukMain = ({ caterogryData, productData }) => {
           setUpdateData(null)
           setModalEditVisible(false)
         }}
-        footer={false}>
+        footer={false}
+      >
         <p className={styles.modalTittle}>Edit Produk</p>
         {updateData ? (
-          <FormProduk initData={updateData} caterogryData={caterogryData} />
+          <FormProduk initData={updateData} categoryData={categoryData} />
         ) : (
           <Spin>
             <FormProduk />
           </Spin>
         )}
+      </Modal>
+      <Modal
+        centered
+        closable={false}
+        visible={modalDeleteVisible}
+        onCancel={() => setModalDeleteVisible(false)}
+        confirmLoading={confirmLoading}
+        onOk={() => handleOnDeleteBtnClick(idRecord)}
+        okType="danger"
+        okText="Hapus"
+        cancelText="Batal"
+      >
+        <IconTrashXL />
+        <p className={styles.modalDesc}>
+          Kamu yakin ingin menghapus produk ini?
+        </p>
       </Modal>
     </>
   )

@@ -1,7 +1,7 @@
 import { Select } from 'antd'
 const { Option } = Select
 
-const FilterCategory = ({ setFilterCategoryField, caterogryData }) => {
+const FilterCategory = ({ setFilterCategoryField, categoryData }) => {
   return (
     <div id="filter-category" className="">
       <Select
@@ -10,6 +10,7 @@ const FilterCategory = ({ setFilterCategoryField, caterogryData }) => {
         allowClear
         placeholder="--Kategori--"
         optionFilterProp="children"
+        style={{ width: '200px' }}
         // onChange={(value) => {
         //   value ? setFilterCategoryField(value) : setFilterCategoryField('');
         // }}
@@ -22,7 +23,7 @@ const FilterCategory = ({ setFilterCategoryField, caterogryData }) => {
         //     .localeCompare(optionB.children.toLowerCase())
         // }
       >
-        {caterogryData.map((item) => (
+        {categoryData.map((item) => (
           <Option value={item.name} key={item.id}>
             {item.name}
           </Option>

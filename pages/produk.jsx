@@ -5,13 +5,13 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { Spin } from 'antd'
 
 export const getServerSideProps = async () => {
-  let caterogryData = []
+  let categoryData = []
   let productData = []
   try {
     const q = query(collection(firestore, 'category'), orderBy('name'))
     const querySnapshots = await getDocs(q)
     querySnapshots.forEach((category) => {
-      caterogryData.push({
+      categoryData.push({
         id: category.id,
         name: category.data().name,
       })
@@ -45,17 +45,17 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-      caterogryData,
+      categoryData,
       productData,
     },
   }
 }
 
-const Produk = ({ caterogryData = null, productData = null }) => {
+const Produk = ({ categoryData = null, productData = null }) => {
   return (
     <Layout id="produk-page" title="Produk" subTitle="Daftar nama-nama produk">
-      {caterogryData !== null && productData !== null ? (
-        <ProdukMain caterogryData={caterogryData} productData={productData} />
+      {categoryData !== null && productData !== null ? (
+        <ProdukMain categoryData={categoryData} productData={productData} />
       ) : (
         <Spin spinning={true}></Spin>
       )}
