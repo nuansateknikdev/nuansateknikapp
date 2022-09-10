@@ -2,7 +2,7 @@ import { Menu } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styles from './MenuItems.module.css'
-import IcHome from '../../../assets/icons/IcHome.svg'
+import IcHome from '../../../assets/icons/icHome.svg'
 import IcCube from '../../../assets/icons/icCubeScane.svg'
 import IcWallet from '../../../assets/icons/icWallet.svg'
 

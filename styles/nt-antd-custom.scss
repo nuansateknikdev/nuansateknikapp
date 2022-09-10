@@ -12,6 +12,15 @@
   line-height: 19px;
   color: #ffffff;
 }
+.ant-btn-dangerous {
+  color: #ffffff;
+  background: #ff8282;
+}
+.ant-btn-dangerous:hover,
+.ant-btn-dangerous:focus {
+  color: #ffffff;
+  background: #ce6161;
+}
 .ant-card {
   border-radius: 12px;
   border: 0px;
@@ -72,7 +81,6 @@
     text-align: center;
   }
   .ant-modal-footer {
-    padding: 24px;
     padding-bottom: 50px;
     text-align: center;
     background: transparent;
@@ -91,6 +99,10 @@
   .ant-select-selector,
 .ant-select-selection-search-input {
   border-radius: 8px;
+  text-align: start;
+}
+.ant-input-prefix {
+  margin-right: 10px;
 }
 
 // costume upload
