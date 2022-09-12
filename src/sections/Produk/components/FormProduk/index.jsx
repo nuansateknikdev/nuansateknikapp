@@ -92,28 +92,6 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
     if (isJpgOrPng && isLt2M) setImage(file)
   }
 
-  // const handleRequest = ({ file, onSuccess }) => {
-  //   setTimeout(() => {
-  //     onSuccess('ok');
-  //   }, 0);
-  // };
-
-  // const handleChange = (info) => {
-  //   if (info.file.status === 'uploading') {
-  //     setLoading(true);
-  //     return;
-  //   }
-  //   if (info.file.status === 'done') {
-  //     setImage(info.file.originFileObj);
-  //     // Get this url from response in real world.
-  //     getBase64(
-  //       info.file.originFileObj,
-  //       (imageUrl) => setImageUrl(imageUrl),
-  //       setLoading(false)
-  //     );
-  //   }
-  // };
-
   // Handle Get Category Name
   const getCategoryName = (id) => {
     return categoryData.find((category) => category.id === id)
@@ -126,10 +104,16 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
     setLoading(false)
   }
 
+  const handlingTransactionSucces = (title) => {
+    message.success(title)
+    setLoading(false)
+    window.location.reload(false)
+  }
+
   const onFinish = (values) => {
-    console.log(values)
     setLoading(true)
     if (initData.id === null) handleAddData(values)
+    else handleUpdateData(values)
   }
 
   const handleAddData = (formData) => {
@@ -156,16 +140,32 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
             createdAt: serverTimestamp(),
             updateAt: serverTimestamp(),
           })
-          setLoading(false)
-          message.success('Berhasil Menambahkan Produk')
-          window.location.reload(false)
+          handlingTransactionSucces('Berhasil Menambahkan Produk')
         } catch (error) {
           handlingUploadError(error, 'Tambah Produk Gagal')
         }
       }
     )
   }
-  const handleUpdateData = () => {}
+  const handleUpdateData = (formData) => {
+    const productRef = doc(firestore, docRef, initData.id)
+    formData.image === initData.image
+      ? handleUpdateDataNoImage(formData, productRef)
+      : handleUpdateDataWithImage(formData, productRef)
+  }
+  const handleUpdateDataWithImage = async (formData, productRef) => {
+    const storageRef = ref(storage, storageDirectory + initData.id)
+    const uploadTask = uploadBytesResumable(storageRef, formData.thumbnail)
+  }
+  const handleUpdateDataNoImage = async (formData, productRef) => {
+    const { image, category, ...resValue } = formData
+    await updateDoc(productRef, {
+      ...resValue,
+      category: category ? getCategoryName(category) : { id: null, name: null },
+      updateAt: serverTimestamp(),
+    })
+    handlingTransactionSucces('Berhasil Update Produk')
+  }
 
   return (
     <Spin spinning={loading}>
@@ -180,8 +180,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
           sellingPrice: initData.sellingPrice,
           purchasePrice: initData.purchasePrice,
           category: initData.category.id,
-        }}
-      >
+        }}>
         <Form.Item
           label="Nama Produk"
           name="name"
@@ -190,8 +189,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
               required: true,
               message: 'Nama produk belum di isi',
             },
-          ]}
-        >
+          ]}>
           <Input placeholder="Masukkan nama produk" size="large" />
         </Form.Item>
         <Form.Item label="Kategori Produk" name="category">
@@ -211,8 +209,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
               required: true,
               message: 'Harga beli belum di isi',
             },
-          ]}
-        >
+          ]}>
           <InputNumber
             placeholder="Masukkan harga beli produk"
             size="large"
@@ -232,8 +229,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
               required: true,
               message: 'Harga beli belum di isi',
             },
-          ]}
-        >
+          ]}>
           <InputNumber
             placeholder="Masukkan harga jual produk"
             size="large"
@@ -253,8 +249,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
               required: true,
               message: 'Gambar belum di isi',
             },
-          ]}
-        >
+          ]}>
           <Upload
             accept="image/png, image/jpeg, image/jpg"
             style={{ width: '100%' }}
@@ -280,8 +275,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
             type="primary"
             htmlType="submit"
             block
-            className={styles.btnSumbit}
-          >
+            className={styles.btnSumbit}>
             Tambah
           </Button>
         </Form.Item>
