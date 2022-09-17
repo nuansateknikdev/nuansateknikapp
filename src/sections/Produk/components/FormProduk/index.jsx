@@ -109,7 +109,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
     setLoading(false)
     setTimeout(() => {
       window.location.reload(false)
-    }, 2000)
+    }, 500)
   }
 
   const onFinish = (values) => {
@@ -118,6 +118,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
     else handleUpdateData(values)
   }
 
+  // HANDLING ADD DATA
   const handleAddData = (formData) => {
     const newRef = doc(collection(firestore, docRef))
 
@@ -150,6 +151,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
     )
   }
 
+  // HANDLING UPDATE DATA
   const handleUpdateData = (formData) => {
     const productRef = doc(firestore, docRef, initData.id)
     formData.image === initData.image

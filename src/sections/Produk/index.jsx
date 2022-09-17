@@ -8,14 +8,18 @@ import SearchProduct from '../../components/SearchProduct'
 import Tabel from '../../components/Tabel'
 import { FormProduk, FormStok } from './components'
 import styles from './produk.module.css'
-import { firestore } from '../../../lib/initFirebase'
+
+import { storage, firestore } from '../../../lib/initFirebase'
 import { deleteDoc, doc, getDoc } from 'firebase/firestore'
+import { ref, deleteObject } from 'firebase/storage'
 
 import { message, Modal, Space, Spin } from 'antd'
 import IconEdit from '../../assets/icons/ic-edit.svg'
 import IconTrash from '../../assets/icons/ic-trash.svg'
 import IconTrashXL from '../../assets/icons/ic-trash-xl.svg'
-import Image from 'next/image'
+
+const storageDirectory = '/product/'
+const docRef = 'product'
 
 const ProdukMain = ({ categoryData, productData }) => {
   const [modalProductVisible, setModalProductVisible] = useState(false)
@@ -25,8 +29,6 @@ const ProdukMain = ({ categoryData, productData }) => {
   const [updateData, setUpdateData] = useState(null)
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [idRecord, setIdRecord] = useState(null)
-
-  console.log(productData)
 
   const columns = [
     {
@@ -99,15 +101,13 @@ const ProdukMain = ({ categoryData, productData }) => {
           <ButtonIcon
             text="Tambah Stok"
             type="primary"
-            onClick={() => setModalStockVisible(true)}
-          >
+            onClick={() => setModalStockVisible(true)}>
             <IconAddSquare />
           </ButtonIcon>
           <ButtonIcon
             className="btn-outline"
             text="Edit"
-            onClick={() => handleOnUpdateBtnClick(record.id)}
-          >
+            onClick={() => handleOnUpdateBtnClick(record.id)}>
             <IconEdit />
           </ButtonIcon>
           <ButtonIcon
@@ -115,8 +115,7 @@ const ProdukMain = ({ categoryData, productData }) => {
             text="Hapus"
             onClick={() => {
               setModalDeleteVisible(true), setIdRecord(record.id)
-            }}
-          >
+            }}>
             <IconTrash />
           </ButtonIcon>
         </Space>
@@ -149,17 +148,32 @@ const ProdukMain = ({ categoryData, productData }) => {
   }
 
   const handleOnDeleteBtnClick = async (id) => {
-    console.log(id)
     setConfirmLoading(true)
-    try {
-      const docRef = doc(firestore, 'product', id)
-      await deleteDoc(docRef)
-      setConfirmLoading(false)
-      message.success('Berhasil Menghapus Produk')
-      window.location.reload(false)
-    } catch (err) {
-      console.error(err)
-    }
+
+    // Create a reference to the file to delete
+    const imageRef = ref(storage, storageDirectory + id)
+
+    // Delete the file
+    deleteObject(imageRef)
+      .then(async () => {
+        try {
+          await deleteDoc(doc(firestore, docRef, id))
+          setConfirmLoading(false)
+          message.success('Berhasil Menghapus Produk')
+          setTimeout(() => {
+            window.location.reload(false)
+          }, 500)
+        } catch (err) {
+          console.error(error)
+          message.error('Delete Data Product Gagal!')
+          setConfirmLoading(false)
+        }
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+        message.error('Delete Data Product Gagal!')
+        setConfirmLoading(false)
+      })
   }
 
   return (
@@ -172,8 +186,7 @@ const ProdukMain = ({ categoryData, productData }) => {
         <ButtonIcon
           onClick={() => setModalProductVisible(true)}
           type="primary"
-          text="Tambah Produk"
-        >
+          text="Tambah Produk">
           <IconAddSquare />
         </ButtonIcon>
       </div>
@@ -183,8 +196,7 @@ const ProdukMain = ({ categoryData, productData }) => {
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalProductVisible}
         onCancel={() => setModalProductVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Produk</p>
         <FormProduk categoryData={categoryData} />
       </Modal>
@@ -193,8 +205,7 @@ const ProdukMain = ({ categoryData, productData }) => {
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalStockVisible}
         onCancel={() => setModalStockVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Stok</p>
         <FormStok />
       </Modal>
@@ -206,8 +217,7 @@ const ProdukMain = ({ categoryData, productData }) => {
           setUpdateData(null)
           setModalEditVisible(false)
         }}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Edit Produk</p>
         {updateData ? (
           <FormProduk initData={updateData} categoryData={categoryData} />
@@ -226,8 +236,7 @@ const ProdukMain = ({ categoryData, productData }) => {
         onOk={() => handleOnDeleteBtnClick(idRecord)}
         okType="danger"
         okText="Hapus"
-        cancelText="Batal"
-      >
+        cancelText="Batal">
         <IconTrashXL />
         <p className={styles.modalDesc}>
           Kamu yakin ingin menghapus produk ini?

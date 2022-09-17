@@ -16,14 +16,11 @@ export const getServerSideProps = async () => {
         name: category.data().name,
       })
     })
-
     const queryProduct = query(
       collection(firestore, 'product'),
       orderBy('createdAt')
     )
-
     const querySnapshotsProduct = await getDocs(queryProduct)
-
     querySnapshotsProduct.forEach((product) => {
       productData.push({
         id: product.id,
