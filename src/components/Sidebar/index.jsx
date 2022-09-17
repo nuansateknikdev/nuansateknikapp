@@ -13,9 +13,11 @@ const Sidebar = () => {
       <div className={styles.logo}>
         <Logo />
       </div>
-      <div className={styles.menu}>
-        <MenuItems />
-        <Button onClick={signOutAuth}>Keluar</Button>
+      <MenuItems />
+      <div className={styles.button}>
+        <Button block onClick={signOutAuth}>
+          Keluar
+        </Button>
       </div>
     </div>
   )
