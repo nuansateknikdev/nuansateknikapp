@@ -107,7 +107,9 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
   const handlingTransactionSucces = (title) => {
     message.success(title)
     setLoading(false)
-    window.location.reload(false)
+    setTimeout(() => {
+      window.location.reload(false)
+    }, 2000)
   }
 
   const onFinish = (values) => {
@@ -118,9 +120,9 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
 
   const handleAddData = (formData) => {
     const newRef = doc(collection(firestore, docRef))
+
     const storageRef = ref(storage, storageDirectory + newRef.id)
     const uploadTask = uploadBytesResumable(storageRef, image)
-
     uploadTask.on(
       'state_changed',
       null,
@@ -147,6 +149,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
       }
     )
   }
+
   const handleUpdateData = (formData) => {
     const productRef = doc(firestore, docRef, initData.id)
     formData.image === initData.image
@@ -155,7 +158,31 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
   }
   const handleUpdateDataWithImage = async (formData, productRef) => {
     const storageRef = ref(storage, storageDirectory + initData.id)
-    const uploadTask = uploadBytesResumable(storageRef, formData.thumbnail)
+    const uploadTask = uploadBytesResumable(storageRef, image)
+
+    uploadTask.on(
+      'state_changed',
+      null,
+      (error) => handlingUploadError(error, 'Update Gambar Gagal'),
+      async () => {
+        // Handle successful uploads on complete
+        try {
+          const urlStorage = await getDownloadURL(uploadTask.snapshot.ref)
+
+          await updateDoc(productRef, {
+            ...formData,
+            category: formData.category
+              ? getCategoryName(formData.category)
+              : { id: null, name: null },
+            image: `${urlStorage}`,
+            updateAt: serverTimestamp(),
+          })
+          handlingTransactionSucces('Update Menambahkan Produk')
+        } catch (error) {
+          handlingUploadError(error, 'Update Produk Gagal')
+        }
+      }
+    )
   }
   const handleUpdateDataNoImage = async (formData, productRef) => {
     const { image, category, ...resValue } = formData
@@ -276,7 +303,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
             htmlType="submit"
             block
             className={styles.btnSumbit}>
-            Tambah
+            {initData.id === null ? 'Tambah' : 'Update'}
           </Button>
         </Form.Item>
       </Form>
