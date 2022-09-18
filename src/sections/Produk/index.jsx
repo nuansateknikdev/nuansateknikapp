@@ -101,7 +101,7 @@ const ProdukMain = ({ categoryData, productData }) => {
           <ButtonIcon
             text="Tambah Stok"
             type="primary"
-            onClick={() => setModalStockVisible(true)}>
+            onClick={() => handleOnAddStockBtnClick(record.id)}>
             <IconAddSquare />
           </ButtonIcon>
           <ButtonIcon
@@ -122,6 +122,29 @@ const ProdukMain = ({ categoryData, productData }) => {
       ),
     },
   ]
+
+  const handleOnAddStockBtnClick = async (id) => {
+    setModalStockVisible(true)
+    try {
+      const docRef = doc(firestore, 'product', id)
+      const docSnap = await getDoc(docRef)
+      console.log(docSnap.data())
+      setUpdateData({
+        id: docSnap.id,
+        name: docSnap.data().name,
+        purchasePrice: docSnap.data().purchasePrice,
+        sellingPrice: docSnap.data().sellingPrice,
+        stock: docSnap.data().stock,
+        image: docSnap.data().image,
+        category: {
+          id: docSnap.data().category.id,
+          name: docSnap.data().category.name,
+        },
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   const handleOnUpdateBtnClick = async (id) => {
     console.log(id)
@@ -160,9 +183,7 @@ const ProdukMain = ({ categoryData, productData }) => {
           await deleteDoc(doc(firestore, docRef, id))
           setConfirmLoading(false)
           message.success('Berhasil Menghapus Produk')
-          setTimeout(() => {
-            window.location.reload(false)
-          }, 500)
+          window.location.reload(false)
         } catch (err) {
           console.error(error)
           message.error('Delete Data Product Gagal!')
@@ -191,6 +212,7 @@ const ProdukMain = ({ categoryData, productData }) => {
         </ButtonIcon>
       </div>
       <Tabel columns={columns} dataSource={productData} />
+      {/* MODAL ADD PRODUCT */}
       <Modal
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
@@ -200,15 +222,28 @@ const ProdukMain = ({ categoryData, productData }) => {
         <p className={styles.modalTittle}>Tambah Produk</p>
         <FormProduk categoryData={categoryData} />
       </Modal>
+
+      {/* MODAL ADD STOCK */}
       <Modal
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalStockVisible}
-        onCancel={() => setModalStockVisible(false)}
+        onCancel={() => {
+          setModalStockVisible(false)
+          setUpdateData(null)
+        }}
         footer={false}>
         <p className={styles.modalTittle}>Tambah Stok</p>
-        <FormStok />
+        {updateData ? (
+          <FormStok initData={updateData} />
+        ) : (
+          <Spin>
+            <FormStok />
+          </Spin>
+        )}
       </Modal>
+
+      {/* MODAL UPDATE PRODUCT */}
       <Modal
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
@@ -227,6 +262,7 @@ const ProdukMain = ({ categoryData, productData }) => {
           </Spin>
         )}
       </Modal>
+
       <Modal
         centered
         closable={false}
