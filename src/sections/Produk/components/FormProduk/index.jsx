@@ -22,31 +22,9 @@ import {
 } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import styles from './formProduk.module.css'
-
+import { emptyData } from '../../produk.utils'
 const storageDirectory = '/product/'
 const docRef = 'product'
-
-// const initUpdateData = {
-//   id: 'IcGCKj3PcuOd0j3dmqK2',
-//   name: 'LED Muxindo 20 watt',
-//   purchasePrice: 10000,
-//   sellingPrice: 20000,
-//   stock: 10,
-//   image: 'testestsetestsetestse',
-//   category: {
-//     id: 'gNi2C5JE9xlLfuFT0zqC',
-//     name: 'lampu',
-//   },
-// }
-const emptyData = {
-  id: null,
-  name: null,
-  purchasePrice: null,
-  sellingPrice: null,
-  stock: null,
-  image: null,
-  category: { id: undefined, name: undefined },
-}
 
 const { Option } = Select
 
@@ -107,9 +85,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
   const handlingTransactionSucces = (title) => {
     message.success(title)
     setLoading(false)
-    setTimeout(() => {
-      window.location.reload(false)
-    }, 500)
+    window.location.reload(false)
   }
 
   const onFinish = (values) => {
@@ -188,12 +164,18 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
   }
   const handleUpdateDataNoImage = async (formData, productRef) => {
     const { image, category, ...resValue } = formData
-    await updateDoc(productRef, {
-      ...resValue,
-      category: category ? getCategoryName(category) : { id: null, name: null },
-      updateAt: serverTimestamp(),
-    })
-    handlingTransactionSucces('Berhasil Update Produk')
+    try {
+      await updateDoc(productRef, {
+        ...resValue,
+        category: category
+          ? getCategoryName(category)
+          : { id: null, name: null },
+        updateAt: serverTimestamp(),
+      })
+      handlingTransactionSucces('Berhasil Update Produk')
+    } catch (error) {
+      handlingUploadError(error, 'Update Produk Gagal')
+    }
   }
 
   return (

@@ -1,12 +1,14 @@
 import { AuthUserProvider } from '../context/AuthUserContext'
 import { useState } from 'react'
 import 'antd/dist/antd.css'
+import '../styles/main.scss'
 import '../styles/globals.css'
 import '../styles/nt-antd-custom.scss'
 import '../styles/signin.scss'
 import '../styles/beranda.scss'
 import '../styles/produk.scss'
 import '../styles/sidebar.scss'
+
 import Router from 'next/router'
 import Loading from '../src/components/Loading'
 
