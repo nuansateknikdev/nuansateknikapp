@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button, Spin, Input, InputNumber, message } from 'antd'
 import { emptyData } from '../../produk.utils'
 import { firestore } from '../../../../../lib/initFirebase'
-import { serverTimestamp, updateDoc, doc } from 'firebase/firestore'
+import { serverTimestamp, updateDoc, doc, increment } from 'firebase/firestore'
 import IcPlusCircle from '../../../../assets/icons/ic-plus-circle.svg'
 import IcMinusCircle from '../../../../assets/icons/ic-minus-circle.svg'
 
@@ -15,7 +15,7 @@ const FormTambahStok = ({ initData = emptyData }) => {
     try {
       const productRef = doc(firestore, 'product', initData.id)
       await updateDoc(productRef, {
-        stock: initData.stock + addStockVal,
+        stock: increment(addStockVal),
         updateAt: serverTimestamp(),
       })
       message.success('Tambah Stock Berhasil')
