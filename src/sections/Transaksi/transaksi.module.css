@@ -1,0 +1,38 @@
+.actionGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.filterGroup {
+  display: flex;
+  gap: 15px;
+}
+.tableTittle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+.modalTittle {
+  display: flex;
+  justify-content: center;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 48px;
+}
+.modalDesc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  margin-top: 20px;
+}
+.imageContainer img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
