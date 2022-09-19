@@ -3,7 +3,11 @@ import Layout from '../src/layout'
 
 const Transaksi = () => {
   return (
-    <Layout id="transaksi-page" title="Transaksi">
+    <Layout
+      id="transaksi-page"
+      title="Transaksi"
+      subTitle="Lihat dan buat transaksi"
+    >
       <TransaksiMain />
     </Layout>
   )
