@@ -22,31 +22,9 @@ import {
 } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import styles from './formProduk.module.css'
-
+import { emptyData } from '../../produk.utils'
 const storageDirectory = '/product/'
 const docRef = 'product'
-
-// const initUpdateData = {
-//   id: 'IcGCKj3PcuOd0j3dmqK2',
-//   name: 'LED Muxindo 20 watt',
-//   purchasePrice: 10000,
-//   sellingPrice: 20000,
-//   stock: 10,
-//   image: 'testestsetestsetestse',
-//   category: {
-//     id: 'gNi2C5JE9xlLfuFT0zqC',
-//     name: 'lampu',
-//   },
-// }
-const emptyData = {
-  id: null,
-  name: null,
-  purchasePrice: null,
-  sellingPrice: null,
-  stock: null,
-  image: null,
-  category: { id: undefined, name: undefined },
-}
 
 const { Option } = Select
 
@@ -116,11 +94,12 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
     else handleUpdateData(values)
   }
 
+  // HANDLING ADD DATA
   const handleAddData = (formData) => {
     const newRef = doc(collection(firestore, docRef))
+
     const storageRef = ref(storage, storageDirectory + newRef.id)
     const uploadTask = uploadBytesResumable(storageRef, image)
-
     uploadTask.on(
       'state_changed',
       null,
@@ -147,6 +126,8 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
       }
     )
   }
+
+  // HANDLING UPDATE DATA
   const handleUpdateData = (formData) => {
     const productRef = doc(firestore, docRef, initData.id)
     formData.image === initData.image
@@ -155,16 +136,46 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
   }
   const handleUpdateDataWithImage = async (formData, productRef) => {
     const storageRef = ref(storage, storageDirectory + initData.id)
-    const uploadTask = uploadBytesResumable(storageRef, formData.thumbnail)
+    const uploadTask = uploadBytesResumable(storageRef, image)
+
+    uploadTask.on(
+      'state_changed',
+      null,
+      (error) => handlingUploadError(error, 'Update Gambar Gagal'),
+      async () => {
+        // Handle successful uploads on complete
+        try {
+          const urlStorage = await getDownloadURL(uploadTask.snapshot.ref)
+
+          await updateDoc(productRef, {
+            ...formData,
+            category: formData.category
+              ? getCategoryName(formData.category)
+              : { id: null, name: null },
+            image: `${urlStorage}`,
+            updateAt: serverTimestamp(),
+          })
+          handlingTransactionSucces('Update Menambahkan Produk')
+        } catch (error) {
+          handlingUploadError(error, 'Update Produk Gagal')
+        }
+      }
+    )
   }
   const handleUpdateDataNoImage = async (formData, productRef) => {
     const { image, category, ...resValue } = formData
-    await updateDoc(productRef, {
-      ...resValue,
-      category: category ? getCategoryName(category) : { id: null, name: null },
-      updateAt: serverTimestamp(),
-    })
-    handlingTransactionSucces('Berhasil Update Produk')
+    try {
+      await updateDoc(productRef, {
+        ...resValue,
+        category: category
+          ? getCategoryName(category)
+          : { id: null, name: null },
+        updateAt: serverTimestamp(),
+      })
+      handlingTransactionSucces('Berhasil Update Produk')
+    } catch (error) {
+      handlingUploadError(error, 'Update Produk Gagal')
+    }
   }
 
   return (
@@ -276,7 +287,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
             htmlType="submit"
             block
             className={styles.btnSumbit}>
-            Tambah
+            {initData.id === null ? 'Tambah' : 'Update'}
           </Button>
         </Form.Item>
       </Form>
