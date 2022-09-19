@@ -85,6 +85,10 @@ const TransaksiMain = () => {
     },
   ]
 
+  const handleAddTransaction = () => {
+    setModalTransaksiVisible(true)
+  }
+
   return (
     <>
       <div className={styles.actionGroup}>
@@ -92,10 +96,9 @@ const TransaksiMain = () => {
           <SearchProduct />
         </div>
         <ButtonIcon
-          onClick={() => setModalTransaksiVisible(true)}
+          onClick={handleAddTransaction}
           type="primary"
-          text="Buat Transaksi"
-        >
+          text="Buat Transaksi">
           <IconAddSquare />
         </ButtonIcon>
       </div>
@@ -106,8 +109,7 @@ const TransaksiMain = () => {
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalTransaksiVisible}
         onCancel={() => setModalTransaksiVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Transaksi</p>
         <FromTransaksi />
       </Modal>
