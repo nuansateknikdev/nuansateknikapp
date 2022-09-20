@@ -56,3 +56,11 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #eef6ff;
 }
+
+.d-none {
+  display: none;
+}
+
+.d-block {
+  display: block;
+}

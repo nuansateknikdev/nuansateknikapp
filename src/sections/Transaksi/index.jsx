@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { Modal } from 'antd'
 import FromTransaksi from './components/FormTransaksi'
 
-const TransaksiMain = () => {
+const TransaksiMain = ({ productData }) => {
   const [modalTransaksiVisible, setModalTransaksiVisible] = useState(false)
 
   const columns = [
@@ -111,7 +111,7 @@ const TransaksiMain = () => {
         onCancel={() => setModalTransaksiVisible(false)}
         footer={false}>
         <p className={styles.modalTittle}>Tambah Transaksi</p>
-        <FromTransaksi />
+        <FromTransaksi productData={productData} />
       </Modal>
     </>
   )

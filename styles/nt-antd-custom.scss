@@ -110,3 +110,13 @@
   width: 100%;
   height: 180px;
 }
+
+// custom select with search
+.ant-select-show-search {
+  width: 200px;
+  max-width: 200px;
+  min-width: 200px;
+  .ant-select-selection-item {
+    text-align: left;
+  }
+}
