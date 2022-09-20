@@ -43,6 +43,7 @@ const FromTransaksi = () => {
                     </Form.Item>
                     <Form.Item {...restField} name={[name, 'qty']}>
                       <InputNumber
+                        controls={false}
                         size="large"
                         min={1}
                         max={100}
@@ -92,6 +93,15 @@ const FromTransaksi = () => {
                 className={styles.btnSumbit}
               >
                 Buat Transaksi
+              </Button>
+              <Button
+                type="ghost"
+                block
+                className={styles.btnSumbit}
+                style={{ marginTop: 10 }}
+                onClick={() => setFormVisible(false)}
+              >
+                Kembali
               </Button>
             </Form.Item>
           </Form>

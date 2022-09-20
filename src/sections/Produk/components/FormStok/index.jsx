@@ -45,7 +45,7 @@ const FormTambahStok = ({ initData = emptyData }) => {
   return (
     <Spin spinning={loading}>
       <div id="product-page__form-add-stock">
-        <div name="name">
+        <div name="name" className="product-page__form-name__grid">
           <label>Nama Produk</label>
           <Input
             placeholder="Masukkan nama produk"
@@ -55,7 +55,7 @@ const FormTambahStok = ({ initData = emptyData }) => {
           />
         </div>
         <div>
-          <label>Nama Produk</label>
+          <label>Stok Barang</label>
           <div className="product-page__form-add-stock__grid">
             <div>
               <InputNumber size="large" readOnly value={initData.stock} />
