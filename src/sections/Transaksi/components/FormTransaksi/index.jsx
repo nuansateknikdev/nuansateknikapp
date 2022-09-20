@@ -7,6 +7,7 @@ const FromTransaksi = ({ productData = [] }) => {
   const [formVisible, setFormVisible] = useState(true)
   const [optionsProduct, setoptionsProduct] = useState([])
   const [loading, setloading] = useState(true)
+  const [disableAddProductInput, setDisableAddProductInput] = useState(false)
 
   useEffect(() => {
     if (productData) {
@@ -37,10 +38,15 @@ const FromTransaksi = ({ productData = [] }) => {
         setoptionsProduct(productData)
       }
     }
+
+    productTransaction.length >= productData.length
+      ? setDisableAddProductInput(true)
+      : setDisableAddProductInput(false)
   }
 
-  const onFinish = () => {
+  const onFinish = (values) => {
     setFormVisible(false)
+    console.log(values)
   }
 
   const onSubmit = () => {
@@ -116,7 +122,8 @@ const FromTransaksi = ({ productData = [] }) => {
                   type="dashed"
                   onClick={() => add()}
                   block
-                  icon={<PlusOutlined />}>
+                  icon={<PlusOutlined />}
+                  disabled={disableAddProductInput}>
                   Tambah Produk
                 </Button>
               </Form.Item>

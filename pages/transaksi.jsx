@@ -40,7 +40,6 @@ export const getServerSideProps = async () => {
 }
 
 const Transaksi = ({ productData }) => {
-  console.log(productData)
   return (
     <Layout
       id="transaksi-page"
