@@ -3,11 +3,20 @@ import styles from './formTransaksi.module.css'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 
-const FromTransaksi = ({ productData = [] }) => {
+const formDataModel = {
+  id: null,
+  name: null,
+  sellingPrice: 0,
+  qty: 1,
+}
+
+const FromTransaksi = ({ productData = null, updateData = null }) => {
   const [formVisible, setFormVisible] = useState(true)
-  const [optionsProduct, setoptionsProduct] = useState([])
   const [loading, setloading] = useState(true)
   const [disableAddProductInput, setDisableAddProductInput] = useState(false)
+  const [formData, setFormData] = useState([])
+  const [optionsProduct, setoptionsProduct] = useState([])
+  const [totalTransaksi, settotalTransaksi] = useState(0)
 
   useEffect(() => {
     if (productData) {
@@ -16,37 +25,67 @@ const FromTransaksi = ({ productData = [] }) => {
     }
   }, [])
 
-  const onValueChange = (changedValues, allValues) => {
-    const productTransaction = allValues.productTranscation
-    console.log(productTransaction)
-    if (productTransaction) {
-      if (productTransaction.length) {
-        const optionProductFilter = productData.filter((optionsProductItem) => {
-          const isProductSelected = productTransaction.some(
-            (productTransactionItem) => {
-              if (productTransactionItem !== undefined) {
-                return productTransactionItem.product === optionsProductItem.id
-              }
-              return false
-            }
-          )
-          return isProductSelected !== true
-        })
+  useEffect(() => {
+    // Handle Disable Button Add Input Product
+    if (formData.length >= productData.length) setDisableAddProductInput(true)
+    else setDisableAddProductInput(false)
 
-        setoptionsProduct(optionProductFilter)
-      } else {
-        setoptionsProduct(productData)
-      }
+    // Handle Duplicate Option Product
+    const newOptionsProduct = productData.filter((options) => {
+      const optionsSelected = formData.some((data) => data.id === options.id)
+      return !optionsSelected
+    })
+
+    setoptionsProduct(newOptionsProduct)
+
+    // Handle Get total transaksi
+    if (formData.length > 0) {
+      let totalTransaksi = formData.reduce(
+        (total, num) => total + num.sellingPrice,
+        0
+      )
+      settotalTransaksi(totalTransaksi)
     }
+  }, [formData])
 
-    productTransaction.length >= productData.length
-      ? setDisableAddProductInput(true)
-      : setDisableAddProductInput(false)
+  const handleSelectOnchange = (value, index) => {
+    setloading(true)
+    const selectProduct = productData.find((product) => product.id === value)
+
+    let newFormData = formData.map((item) => item)
+    let curentInput = formData[index]
+
+    const newInput = { ...curentInput, ...selectProduct }
+
+    newFormData[index] = newInput
+
+    setFormData(newFormData)
+
+    setloading(false)
   }
 
-  const onFinish = (values) => {
+  const handleQtyChange = (value, index) => {
+    let newFormData = formData.map((item) => item)
+    let curentInput = formData[index]
+
+    const newInput = { ...curentInput, qty: value }
+
+    newFormData[index] = newInput
+    setFormData(newFormData)
+  }
+
+  const onBayarClick = (values) => {
     setFormVisible(false)
     console.log(values)
+  }
+
+  const handleAddInputProduct = () => {
+    setFormData([...formData, formDataModel])
+  }
+
+  const handleRemoveInputProduct = (id, index) => {
+    const newFormData = formData.filter((item, idx) => idx !== index)
+    setFormData(newFormData)
   }
 
   const onSubmit = () => {
@@ -54,120 +93,104 @@ const FromTransaksi = ({ productData = [] }) => {
   }
 
   return (
-    <Spin spinning={loading}>
-      <div className={styles.cardTotal}>
-        <p>Total Harga</p>
-        <p>Rp -</p>
-      </div>
-      <Form
-        name="dynamic_form_nest_item"
-        onFinish={onFinish}
-        autoComplete="off"
-        onValuesChange={onValueChange}
-        className={formVisible ? `` : `d-none`}>
-        <Form.List name="productTranscation">
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map(({ key, name, ...restField }) => (
-                <Space key={key} style={{ display: 'flex' }} align="baseline">
-                  <Form.Item
-                    {...restField}
-                    name={[name, 'product']}
-                    rules={[
-                      {
-                        required: true,
-                        message: '',
-                      },
-                    ]}>
-                    <Select
-                      showSearch
-                      placeholder="Select a person"
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .includes(input.toLowerCase())
-                      }>
-                      {optionsProduct.map((item, index) => (
-                        <Option key={index} value={item.id}>
-                          {item.name}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item {...restField} name={[name, 'price']}>
-                    <Input placeholder="Harga" size="large" readOnly />
-                  </Form.Item>
-                  <Form.Item
-                    {...restField}
-                    name={[name, 'qty']}
-                    rules={[
-                      {
-                        required: true,
-                        message: '',
-                      },
-                    ]}>
-                    <InputNumber
-                      controls={false}
-                      size="large"
-                      min={1}
-                      max={100}
-                    />
-                  </Form.Item>
-                  <MinusCircleOutlined onClick={() => remove(name)} />
-                </Space>
-              ))}
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                  disabled={disableAddProductInput}>
-                  Tambah Produk
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+    <div id="form-transaksi">
+      <Spin spinning={loading}>
+        <div className={styles.cardTotal}>
+          <p>Total Harga</p>
+          <p>Rp {totalTransaksi}</p>
+        </div>
+        <div className={formVisible ? `` : `d-none`}>
+          {formData.map((product, index) => {
+            return (
+              <div className="form-transaksi__input-proudct">
+                <Select
+                  value={product.name}
+                  showSearch
+                  placeholder="Select a person"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().includes(input.toLowerCase())
+                  }
+                  onChange={(value) => handleSelectOnchange(value, index)}>
+                  {optionsProduct.map((option, indexOption) => (
+                    <Option key={indexOption} value={option.id}>
+                      {option.name}
+                    </Option>
+                  ))}
+                </Select>
+                <InputNumber
+                  value={product.sellingPrice}
+                  controls={false}
+                  size="large"
+                  min={0}
+                  readOnly
+                />
+                <InputNumber
+                  onChange={(value) => handleQtyChange(value, index)}
+                  value={product.qty}
+                  controls={false}
+                  size="large"
+                  min={1}
+                  max={product.stock}
+                />
+                <MinusCircleOutlined
+                  onClick={() => handleRemoveInputProduct(product.id, index)}
+                />
+              </div>
+            )
+          })}
+
+          <Button
+            className="form-transaksi__btn-tambah-produk"
+            type="dashed"
+            block
+            icon={<PlusOutlined />}
+            onClick={handleAddInputProduct}
+            disabled={disableAddProductInput}>
+            Tambah Produk
+          </Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ width: '100%' }}
+            onClick={onBayarClick}>
             Bayar
           </Button>
-        </Form.Item>
-      </Form>
-      <div className={formVisible ? `d-none` : ``}>
-        <p style={{ fontSize: '18px' }}>Rincian Pembayaran</p>
-        <Form layout="vertical" onFinish={onSubmit}>
-          <Form.Item name="buy" label="Bayar">
-            <Input placeholder="Masukkan Jumlah Uang" size="large" />
-          </Form.Item>
-          <Form.Item name="changes" label="Kembalian">
-            <div className={styles.cardChanges}>
-              <p>Rp 10.000</p>
-            </div>
-          </Form.Item>
+        </div>
 
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              className={styles.btnSumbit}>
-              Buat Transaksi
-            </Button>
-            <Button
-              type="ghost"
-              block
-              className={styles.btnSumbit}
-              style={{ marginTop: 10 }}
-              onClick={() => setFormVisible(true)}>
-              Kembali
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
-    </Spin>
+        <div className={formVisible ? `d-none` : ``}>
+          <p style={{ fontSize: '18px' }}>Rincian Pembayaran</p>
+          <Form layout="vertical" onFinish={onSubmit}>
+            <Form.Item name="buy" label="Bayar">
+              <Input placeholder="Masukkan Jumlah Uang" size="large" />
+            </Form.Item>
+            <Form.Item name="changes" label="Kembalian">
+              <div className={styles.cardChanges}>
+                <p>Rp 10.000</p>
+              </div>
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                className={styles.btnSumbit}>
+                Buat Transaksi
+              </Button>
+              <Button
+                type="ghost"
+                block
+                className={styles.btnSumbit}
+                style={{ marginTop: 10 }}
+                onClick={() => setFormVisible(true)}>
+                Kembali
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </Spin>
+    </div>
   )
 }
 
