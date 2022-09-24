@@ -24,6 +24,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import styles from './formProduk.module.css'
 import IconUploadImage from '../../../../assets/icons/ic-upload-image.svg'
 import { emptyData } from '../../produk.utils'
+
 const storageDirectory = '/product/'
 const docRef = 'product'
 
@@ -195,8 +196,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
           sellingPrice: initData.sellingPrice,
           purchasePrice: initData.purchasePrice,
           category: initData.category.id,
-        }}
-      >
+        }}>
         <Form.Item
           label="Nama Produk"
           name="name"
@@ -205,8 +205,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
               required: true,
               message: 'Nama produk belum di isi',
             },
-          ]}
-        >
+          ]}>
           <Input placeholder="Masukkan nama produk" size="large" />
         </Form.Item>
         <Form.Item label="Kategori Produk" name="category">
@@ -226,8 +225,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
               required: true,
               message: 'Harga beli belum di isi',
             },
-          ]}
-        >
+          ]}>
           <InputNumber
             placeholder="Masukkan harga beli produk"
             size="large"
@@ -247,8 +245,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
               required: true,
               message: 'Harga beli belum di isi',
             },
-          ]}
-        >
+          ]}>
           <InputNumber
             placeholder="Masukkan harga jual produk"
             size="large"
@@ -268,8 +265,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
               required: true,
               message: 'Gambar belum di isi',
             },
-          ]}
-        >
+          ]}>
           <Upload
             accept="image/png, image/jpeg, image/jpg"
             style={{ width: '100%' }}
@@ -295,8 +291,7 @@ const FormTambahProduk = ({ initData = emptyData, categoryData = [] }) => {
             type="primary"
             htmlType="submit"
             block
-            className={styles.btnSumbit}
-          >
+            className={styles.btnSumbit}>
             {initData.id === null ? 'Tambah' : 'Update'}
           </Button>
         </Form.Item>

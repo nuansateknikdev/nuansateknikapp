@@ -7,8 +7,9 @@ import styles from './transaksi.module.css'
 import { useState } from 'react'
 import { Modal } from 'antd'
 import FromTransaksi from './components/FormTransaksi'
+import Moment from 'react-moment'
 
-const TransaksiMain = () => {
+const TransaksiMain = ({ productData, transactionData }) => {
   const [modalTransaksiVisible, setModalTransaksiVisible] = useState(false)
 
   const columns = [
@@ -22,45 +23,68 @@ const TransaksiMain = () => {
     },
     {
       title: 'Gambar',
-      dataIndex: 'image',
-      key: 'image',
+      dataIndex: 'products',
+      key: 'products',
+      render: (products) => (
+        <div className={styles.tableThumbnailContainer}>
+          {products.map((item) => (
+            <div className={styles.tableThumbnailInner}>
+              <p>{item.qty}x</p>
+              <div className={styles.tableThumbnail}>
+                <img src={item.image} />
+              </div>
+            </div>
+          ))}
+        </div>
+      ),
     },
     {
       title: 'Nama Produk',
-      dataIndex: 'produk',
-      key: 'produk',
-      render: (produk) =>
-        produk.map((item) => (
-          <ul key={item.id} style={{ listStyleType: 'none' }}>
-            <li>{item.name}</li>
-          </ul>
-        )),
+      dataIndex: 'products',
+      key: 'products',
+      render: (products) => (
+        <ul>
+          {products.map((item) => (
+            <li key={item.id}>{item.name}</li>
+          ))}
+        </ul>
+      ),
     },
     {
       title: 'Hari dan Tanggal',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (createdAt) => (
+        <span>
+          <Moment date={createdAt} format="dddd, DD-MM-YYYY" />
+        </span>
+      ),
     },
     {
       title: 'Jam',
       dataIndex: 'time',
       key: 'time',
+      render: (text, record, index) => {
+        return <span>{index + 1}</span>
+      },
     },
     {
       title: 'Kuantitas',
-      dataIndex: 'produk',
-      key: 'produk',
-      render: (produk) =>
-        produk.map((item) => (
-          <ul key={item.id} style={{ listStyleType: 'none' }}>
-            <li>{`${item.qty}x ${item.name}`}</li>
-          </ul>
-        )),
+      dataIndex: 'products',
+      key: 'products',
+      render: (products) => (
+        <ul style={{ listStyleType: 'none' }}>
+          {products.map((item) => (
+            <li key={item.id}>{`${item.qty}x ${item.name}`}</li>
+          ))}
+        </ul>
+      ),
     },
     {
       title: 'Total Harga',
-      dataIndex: 'countTotal',
-      key: 'countTotal',
+      dataIndex: 'totalPayment',
+      key: 'totalPayment',
+      render: (totalPayment) => <span>Rp {totalPayment}</span>,
     },
   ]
 
@@ -69,7 +93,7 @@ const TransaksiMain = () => {
       no: '1',
       date: 'Senin, 29-08-2022',
       time: '08:32',
-      produk: [
+      products: [
         {
           id: 1,
           name: 'Lampu Plihips',
@@ -85,6 +109,10 @@ const TransaksiMain = () => {
     },
   ]
 
+  const handleAddTransaction = () => {
+    setModalTransaksiVisible(true)
+  }
+
   return (
     <>
       <div className={styles.actionGroup}>
@@ -92,24 +120,24 @@ const TransaksiMain = () => {
           <SearchProduct />
         </div>
         <ButtonIcon
-          onClick={() => setModalTransaksiVisible(true)}
+          onClick={handleAddTransaction}
           type="primary"
-          text="Buat Transaksi"
-        >
+          text="Buat Transaksi">
           <IconAddSquare />
         </ButtonIcon>
       </div>
       <p className={styles.tableTittle}>Riwayat Transaksi</p>
-      <Tabel columns={columns} dataSource={dataSource} />
+      <Tabel columns={columns} dataSource={transactionData} />
       <Modal
+        id="form-transaksi-modal"
+        wrapClassName="form-transaksi-modal"
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalTransaksiVisible}
         onCancel={() => setModalTransaksiVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Transaksi</p>
-        <FromTransaksi />
+        <FromTransaksi productData={productData} />
       </Modal>
     </>
   )

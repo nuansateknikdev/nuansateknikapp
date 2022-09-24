@@ -4,6 +4,26 @@
   align-items: center;
   margin-bottom: 40px;
 }
+
+.tableThumbnailContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tableThumbnail {
+  width: 45px;
+  height: 45px;
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+}
+
+.tableThumbnail img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
 .filterGroup {
   display: flex;
   gap: 15px;
