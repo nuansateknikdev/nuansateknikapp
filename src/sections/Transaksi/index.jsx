@@ -27,8 +27,8 @@ const TransaksiMain = ({ productData, transactionData }) => {
       key: 'products',
       render: (products) => (
         <div className={styles.tableThumbnailContainer}>
-          {products.map((item) => (
-            <div className={styles.tableThumbnailInner}>
+          {products.map((item, index) => (
+            <div key={index} className={styles.tableThumbnailInner}>
               <p>{item.qty}x</p>
               <div className={styles.tableThumbnail}>
                 <img src={item.image} />
