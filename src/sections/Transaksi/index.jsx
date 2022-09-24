@@ -105,6 +105,8 @@ const TransaksiMain = ({ productData }) => {
       <p className={styles.tableTittle}>Riwayat Transaksi</p>
       <Tabel columns={columns} dataSource={dataSource} />
       <Modal
+        id="form-transaksi-modal"
+        wrapClassName="form-transaksi-modal"
         centered
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalTransaksiVisible}
