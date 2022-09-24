@@ -2,10 +2,16 @@ import TransaksiMain from '../src/sections/Transaksi'
 import Layout from '../src/layout'
 import { Spin } from 'antd'
 import { firestore } from '../lib/initFirebase'
-import { collection, getDocs, query, orderBy } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  serverTimestamp,
+} from 'firebase/firestore'
 
 export const getServerSideProps = async () => {
-  let categoryData = []
+  let transactionData = []
   let productData = []
   try {
     const queryProduct = query(
@@ -27,6 +33,22 @@ export const getServerSideProps = async () => {
         image: product.data().image,
       })
     })
+
+    const queryTransaction = query(
+      collection(firestore, 'transaction'),
+      orderBy('createdAt')
+    )
+    const querySnapshotsTransaction = await getDocs(queryTransaction)
+    querySnapshotsTransaction.forEach((product) => {
+      transactionData.push({
+        id: product.id,
+        products: product.data().products,
+        totalPayment: product.data().totalPayment,
+        payment: product.data().payment,
+        refund: product.data().refund,
+        createdAt: product.data().createdAt.toDate().toString(),
+      })
+    })
   } catch (err) {
     console.log(err)
     return
@@ -35,18 +57,22 @@ export const getServerSideProps = async () => {
   return {
     props: {
       productData,
+      transactionData,
     },
   }
 }
 
-const Transaksi = ({ productData }) => {
+const Transaksi = ({ productData, transactionData }) => {
   return (
     <Layout
       id="transaksi-page"
       title="Transaksi"
       subTitle="Lihat dan buat transaksi">
-      {productData !== null ? (
-        <TransaksiMain productData={productData} />
+      {productData !== null && transactionData !== null ? (
+        <TransaksiMain
+          productData={productData}
+          transactionData={transactionData}
+        />
       ) : (
         <Spin spinning={true}></Spin>
       )}
