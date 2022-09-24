@@ -35,7 +35,7 @@ const formDataModel = {
 const FromTransaksi = ({ productData = null, updateData = null }) => {
   const [formVisible, setFormVisible] = useState(true)
   const [disableAddProductInput, setDisableAddProductInput] = useState(false)
-  const [disableBuatTransaksi, setDisableBuatTransaksi] = useState(false)
+  const [disableBuatTransaksi, setDisableBuatTransaksi] = useState(true)
   const [loading, setloading] = useState(true)
   const [formData, setFormData] = useState([])
   const [optionsProduct, setoptionsProduct] = useState([])
@@ -59,12 +59,14 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
   }, [])
 
   useEffect(() => {
+    const filterProductStock = productData.filter((data) => data.stock != 0)
+
     // Handle Disable Button Add Input Product
-    if (formData.length >= productData.length) setDisableAddProductInput(true)
+    if (formData.length >= filterProductStock.length)
+      setDisableAddProductInput(true)
     else setDisableAddProductInput(false)
 
     // Handle Duplicate Option Select Product
-    const filterProductStock = productData.filter((data) => data.stock != 0)
     const newOptionsProduct = filterProductStock.filter((options) => {
       const optionsSelected = formData.some((data) => data.id === options.id)
       return !optionsSelected
@@ -132,9 +134,13 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
 
   // Handle Input Payment
   const handleInputPayment = (value) => {
-    if (value < totalPayment) setIsPaymentError(true)
-    else setIsPaymentError(false)
-
+    if (value < totalPayment) {
+      setIsPaymentError(true)
+      setDisableBuatTransaksi(true)
+    } else {
+      setIsPaymentError(false)
+      setDisableBuatTransaksi(false)
+    }
     setPayment(value)
   }
   const onBayarClick = () => {
@@ -254,7 +260,6 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
           </Button>
           <Button
             type="primary"
-            htmlType="submit"
             block
             onClick={onBayarClick}
             disabled={totalPayment === 0}>
