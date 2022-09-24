@@ -32,6 +32,8 @@ const formDataModel = {
   qty: 1,
 }
 
+const { Option } = Select
+
 const FromTransaksi = ({ productData = null, updateData = null }) => {
   const [formVisible, setFormVisible] = useState(true)
   const [disableAddProductInput, setDisableAddProductInput] = useState(false)
@@ -203,7 +205,7 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
           </div>
           {formData.map((product, index) => {
             return (
-              <div className="form-transaksi__input-proudct">
+              <div key={index} className="form-transaksi__input-proudct">
                 <p>{index + 1}</p>
                 <Select
                   value={product.name}
