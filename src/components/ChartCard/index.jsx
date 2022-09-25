@@ -7,7 +7,8 @@ import IconOrangeBox from '../../assets/images/dashboard/icon-orange-box.svg'
 import Image from 'next/image'
 import { Button } from 'antd'
 
-const ChartCard = () => {
+const ChartCard = ({ productData }) => {
+  console.log(productData)
   return (
     <div id="chart-card">
       <Row gutter={[16, 16]}>
@@ -26,7 +27,8 @@ const ChartCard = () => {
                   style={{
                     border: '1px solid #6fcf97',
                     background: '#ebfff3',
-                  }}>
+                  }}
+                >
                   <IconGreenBox />
                   <p>1.291</p>
                   <p>items</p>
@@ -45,7 +47,8 @@ const ChartCard = () => {
                   style={{
                     border: '1px solid #F2C94C',
                     background: '#FFF9E8',
-                  }}>
+                  }}
+                >
                   <IconOrangeBox />
                   <p>1.291</p>
                   <p>items</p>
