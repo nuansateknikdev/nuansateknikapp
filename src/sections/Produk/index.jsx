@@ -128,7 +128,7 @@ const ProdukMain = ({ categoryData, productData }) => {
     try {
       const docRef = doc(firestore, 'product', id)
       const docSnap = await getDoc(docRef)
-      console.log(docSnap.data())
+      // console.log(docSnap.data())
       setUpdateData({
         id: docSnap.id,
         name: docSnap.data().name,
@@ -152,7 +152,7 @@ const ProdukMain = ({ categoryData, productData }) => {
     try {
       const docRef = doc(firestore, 'product', id)
       const docSnap = await getDoc(docRef)
-      console.log(docSnap.data())
+      // console.log(docSnap.data())
       setUpdateData({
         id: docSnap.id,
         name: docSnap.data().name,
