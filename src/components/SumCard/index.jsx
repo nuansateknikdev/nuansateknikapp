@@ -4,8 +4,21 @@ import TotalPendapatan from '../../assets/images/dashboard/total-pendapatan.svg'
 import ProdukTerjual from '../../assets/images/dashboard/produk-terjual.svg'
 import TotalPelanggan from '../../assets/images/dashboard/total-pelanggan.svg'
 import styles from './sumcard.module.css'
+import { formatPrice } from '../../utils'
 
-const SumCard = () => {
+const SumCard = ({ transactionData }) => {
+  let paymentDatas = []
+  let productSoldDatas = []
+
+  transactionData.map((data) => {
+    paymentDatas.push(data.totalPayment)
+    data.products.map((item) => {
+      productSoldDatas.push(item.qty)
+    })
+  })
+
+  const countTotal = (data) => data.reduce((sum, num) => sum + num)
+
   return (
     <div id="sum-card">
       <Row gutter={[16, 16]}>
@@ -14,7 +27,7 @@ const SumCard = () => {
             <TotalPendapatan />
             <div className={styles.cardInfo}>
               <p>Total Pendapatan</p>
-              <p>Rp 2.000.000</p>
+              <p>Rp {formatPrice(countTotal(paymentDatas))}</p>
             </div>
           </Card>
         </Col>
@@ -23,7 +36,7 @@ const SumCard = () => {
             <ProdukTerjual />
             <div className={styles.cardInfo}>
               <p>Produk Terjual</p>
-              <p>3562</p>
+              <p>{countTotal(productSoldDatas)}</p>
             </div>
           </Card>
         </Col>
@@ -32,7 +45,7 @@ const SumCard = () => {
             <TotalPelanggan />
             <div className={styles.cardInfo}>
               <p>Total Pelanggan</p>
-              <p>1672</p>
+              <p>{transactionData.length}</p>
             </div>
           </Card>
         </Col>
