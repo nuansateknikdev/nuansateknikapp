@@ -63,7 +63,7 @@ const Home = ({ productData, transactionData }) => {
       title="Dashboard"
       subTitle="Selamat datang, John Doe">
       {transactionData !== null && productData !== null ? (
-        <BerandaNMain
+        <BerandaMain
           productData={productData}
           transactionData={transactionData}
         />

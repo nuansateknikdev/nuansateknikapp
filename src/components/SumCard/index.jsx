@@ -5,17 +5,26 @@ import ProdukTerjual from '../../assets/images/dashboard/produk-terjual.svg'
 import TotalPelanggan from '../../assets/images/dashboard/total-pelanggan.svg'
 import styles from './sumcard.module.css'
 import { formatPrice } from '../../utils'
+import { useEffect, useState } from 'react'
 
 const SumCard = ({ transactionData }) => {
-  let paymentDatas = []
-  let productSoldDatas = []
+  const [totalPayment, setTotalPayment] = useState(0)
+  const [productSoldDatas, setProductSoldDatas] = useState(0)
 
-  transactionData.map((data) => {
-    paymentDatas.push(data.totalPayment)
-    data.products.map((item) => {
-      productSoldDatas.push(item.qty)
+  useEffect(() => {
+    let paymentDatas = []
+    let productSoldDatas = []
+
+    transactionData.map((transaction) => {
+      paymentDatas.push(transaction.totalPayment)
+      transaction.products.map((product) => {
+        productSoldDatas.push(product.qty)
+      })
     })
-  })
+
+    setTotalPayment(countTotal(paymentDatas))
+    setProductSoldDatas(countTotal(productSoldDatas))
+  }, [])
 
   const countTotal = (data) => data.reduce((sum, num) => sum + num)
 
@@ -27,7 +36,7 @@ const SumCard = ({ transactionData }) => {
             <TotalPendapatan />
             <div className={styles.cardInfo}>
               <p>Total Pendapatan</p>
-              <p>Rp {formatPrice(countTotal(paymentDatas))}</p>
+              <p>Rp {formatPrice(totalPayment)}</p>
             </div>
           </Card>
         </Col>
@@ -36,7 +45,7 @@ const SumCard = ({ transactionData }) => {
             <ProdukTerjual />
             <div className={styles.cardInfo}>
               <p>Produk Terjual</p>
-              <p>{countTotal(productSoldDatas)}</p>
+              <p>{productSoldDatas}</p>
             </div>
           </Card>
         </Col>
