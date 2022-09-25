@@ -58,7 +58,7 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
     } else {
       setDisableAddProductInput(true)
     }
-  }, [])
+  }, [productData, updateData])
 
   useEffect(() => {
     const filterProductStock = productData.filter((data) => data.stock != 0)
@@ -84,7 +84,7 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
       )
       settotalPayment(totalPayment)
     }
-  }, [formData])
+  }, [formData, productData])
 
   // Handle Refund
   useEffect(() => {
@@ -95,7 +95,7 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
       setRefund(0)
       setDisableBuatTransaksi(true)
     }
-  }, [payment])
+  }, [payment, totalPayment])
 
   const handleSelectOnchange = (value, index) => {
     setloading(true)
@@ -215,7 +215,8 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
                   filterOption={(input, option) =>
                     option.children.toLowerCase().includes(input.toLowerCase())
                   }
-                  onChange={(value) => handleSelectOnchange(value, index)}>
+                  onChange={(value) => handleSelectOnchange(value, index)}
+                >
                   {optionsProduct.map((option, indexOption) => (
                     <Option key={indexOption} value={option.id}>
                       {option.name}
@@ -257,14 +258,16 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
             block
             icon={<PlusOutlined />}
             onClick={handleAddInputProduct}
-            disabled={disableAddProductInput}>
+            disabled={disableAddProductInput}
+          >
             Tambah Produk
           </Button>
           <Button
             type="primary"
             block
             onClick={onBayarClick}
-            disabled={totalPayment === 0}>
+            disabled={totalPayment === 0}
+          >
             Bayar
           </Button>
         </div>
@@ -290,7 +293,8 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
             block
             className={styles.btnSumbit}
             disabled={disableBuatTransaksi}
-            onClick={onBuatTransaksiBtnClick}>
+            onClick={onBuatTransaksiBtnClick}
+          >
             Buat Transaksi
           </Button>
           <Button
@@ -298,7 +302,8 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
             block
             className={styles.btnSumbit}
             style={{ marginTop: 10 }}
-            onClick={() => setFormVisible(true)}>
+            onClick={() => setFormVisible(true)}
+          >
             Kembali
           </Button>
         </div>

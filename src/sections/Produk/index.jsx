@@ -17,6 +17,7 @@ import { message, Modal, Space, Spin } from 'antd'
 import IconEdit from '../../assets/icons/ic-edit.svg'
 import IconTrash from '../../assets/icons/ic-trash.svg'
 import IconTrashXL from '../../assets/icons/ic-trash-xl.svg'
+import { formatPrice } from '../../utils'
 
 const storageDirectory = '/product/'
 const docRef = 'product'
@@ -75,23 +76,13 @@ const ProdukMain = ({ categoryData, productData }) => {
       title: 'Harga Beli',
       dataIndex: 'purchasePrice',
       key: 'purchasePrice',
-      render: (purchasePrice) =>
-        `Rp ${
-          purchasePrice.toString().length > 3
-            ? purchasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-            : purchasePrice
-        }`,
+      render: (purchasePrice) => `Rp ${formatPrice(purchasePrice)}`,
     },
     {
       title: 'Harga Jual',
       dataIndex: 'sellingPrice',
       key: 'sellingPrice',
-      render: (sellingPrice) =>
-        `Rp ${
-          sellingPrice.toString().length > 3
-            ? sellingPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-            : sellingPrice
-        }`,
+      render: (sellingPrice) => `Rp ${formatPrice(sellingPrice)}`,
     },
     {
       title: 'Aksi',
@@ -101,13 +92,15 @@ const ProdukMain = ({ categoryData, productData }) => {
           <ButtonIcon
             text="Tambah Stok"
             type="primary"
-            onClick={() => handleOnAddStockBtnClick(record.id)}>
+            onClick={() => handleOnAddStockBtnClick(record.id)}
+          >
             <IconAddSquare />
           </ButtonIcon>
           <ButtonIcon
             className="btn-outline"
             text="Edit"
-            onClick={() => handleOnUpdateBtnClick(record.id)}>
+            onClick={() => handleOnUpdateBtnClick(record.id)}
+          >
             <IconEdit />
           </ButtonIcon>
           <ButtonIcon
@@ -115,7 +108,8 @@ const ProdukMain = ({ categoryData, productData }) => {
             text="Hapus"
             onClick={() => {
               setModalDeleteVisible(true), setIdRecord(record.id)
-            }}>
+            }}
+          >
             <IconTrash />
           </ButtonIcon>
         </Space>
@@ -207,7 +201,8 @@ const ProdukMain = ({ categoryData, productData }) => {
         <ButtonIcon
           onClick={() => setModalProductVisible(true)}
           type="primary"
-          text="Tambah Produk">
+          text="Tambah Produk"
+        >
           <IconAddSquare />
         </ButtonIcon>
       </div>
@@ -218,7 +213,8 @@ const ProdukMain = ({ categoryData, productData }) => {
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalProductVisible}
         onCancel={() => setModalProductVisible(false)}
-        footer={false}>
+        footer={false}
+      >
         <p className={styles.modalTittle}>Tambah Produk</p>
         <FormProduk categoryData={categoryData} />
       </Modal>
@@ -232,7 +228,8 @@ const ProdukMain = ({ categoryData, productData }) => {
           setModalStockVisible(false)
           setUpdateData(null)
         }}
-        footer={false}>
+        footer={false}
+      >
         <p className={styles.modalTittle}>Tambah Stok</p>
         {updateData ? (
           <FormStok initData={updateData} />
@@ -252,7 +249,8 @@ const ProdukMain = ({ categoryData, productData }) => {
           setUpdateData(null)
           setModalEditVisible(false)
         }}
-        footer={false}>
+        footer={false}
+      >
         <p className={styles.modalTittle}>Edit Produk</p>
         {updateData ? (
           <FormProduk initData={updateData} categoryData={categoryData} />
@@ -272,7 +270,8 @@ const ProdukMain = ({ categoryData, productData }) => {
         onOk={() => handleOnDeleteBtnClick(idRecord)}
         okType="danger"
         okText="Hapus"
-        cancelText="Batal">
+        cancelText="Batal"
+      >
         <IconTrashXL />
         <p className={styles.modalDesc}>
           Kamu yakin ingin menghapus produk ini?
