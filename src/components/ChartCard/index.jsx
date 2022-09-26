@@ -27,8 +27,7 @@ const ChartCard = ({ productData }) => {
                   style={{
                     border: '1px solid #6fcf97',
                     background: '#ebfff3',
-                  }}
-                >
+                  }}>
                   <IconGreenBox />
                   <p>1.291</p>
                   <p>items</p>
@@ -47,8 +46,7 @@ const ChartCard = ({ productData }) => {
                   style={{
                     border: '1px solid #F2C94C',
                     background: '#FFF9E8',
-                  }}
-                >
+                  }}>
                   <IconOrangeBox />
                   <p>1.291</p>
                   <p>items</p>

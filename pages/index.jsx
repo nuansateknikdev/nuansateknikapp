@@ -61,9 +61,8 @@ const Home = ({ productData, transactionData }) => {
     <Layout
       id="beranda-page"
       title="Dashboard"
-      subTitle="Selamat datang, John Doe"
-    >
-      {transactionData !== null ? (
+      subTitle="Selamat datang, John Doe">
+      {transactionData !== null && productData !== null ? (
         <BerandaMain
           productData={productData}
           transactionData={transactionData}

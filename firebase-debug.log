@@ -1,21 +1,40 @@
-[debug] [2022-08-20T05:09:26.513Z] ----------------------------------------------------------------------
-[debug] [2022-08-20T05:09:26.515Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\minrn\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2022-08-20T05:09:26.515Z] CLI Version:   11.7.0
-[debug] [2022-08-20T05:09:26.515Z] Platform:      win32
-[debug] [2022-08-20T05:09:26.515Z] Node Version:  v16.15.0
-[debug] [2022-08-20T05:09:26.516Z] Time:          Sat Aug 20 2022 12:09:26 GMT+0700 (Western Indonesia Time)
-[debug] [2022-08-20T05:09:26.516Z] ----------------------------------------------------------------------
+[debug] [2022-09-25T08:17:23.853Z] ----------------------------------------------------------------------
+[debug] [2022-09-25T08:17:23.855Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\minrn\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2022-09-25T08:17:23.856Z] CLI Version:   11.10.0
+[debug] [2022-09-25T08:17:23.856Z] Platform:      win32
+[debug] [2022-09-25T08:17:23.856Z] Node Version:  v16.15.0
+[debug] [2022-09-25T08:17:23.857Z] Time:          Sun Sep 25 2022 15:17:23 GMT+0700 (Western Indonesia Time)
+[debug] [2022-09-25T08:17:23.858Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2022-08-20T05:09:26.522Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-08-20T05:09:26.522Z] > authorizing via signed-in user (nuansateknik.dev@gmail.com)
+[debug] [2022-09-25T08:17:23.993Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-09-25T08:17:23.993Z] > authorizing via signed-in user (nuansateknik.dev@gmail.com)
+[debug] [2022-09-25T08:17:23.994Z] [iam] checking project dbnuansateknik for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-09-25T08:17:23.997Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/dbnuansateknik:testIamPermissions [none]
+[debug] [2022-09-25T08:17:23.997Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/dbnuansateknik:testIamPermissions x-goog-quota-user=projects/dbnuansateknik
+[debug] [2022-09-25T08:17:23.997Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/dbnuansateknik:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-09-25T08:17:26.883Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/dbnuansateknik:testIamPermissions 200
+[debug] [2022-09-25T08:17:26.883Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/dbnuansateknik:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-09-25T08:17:26.884Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/dbnuansateknik/serviceAccounts/dbnuansateknik@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2022-09-25T08:17:26.884Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/dbnuansateknik/serviceAccounts/dbnuansateknik@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2022-09-25T08:17:28.206Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/dbnuansateknik/serviceAccounts/dbnuansateknik@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2022-09-25T08:17:28.206Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/dbnuansateknik/serviceAccounts/dbnuansateknik@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2022-09-25T08:17:28.208Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dbnuansateknik [none]
+[debug] [2022-09-25T08:17:28.707Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dbnuansateknik 200
+[debug] [2022-09-25T08:17:28.707Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dbnuansateknik {"projectId":"dbnuansateknik","projectNumber":"772916551566","displayName":"dbnuansateknik","name":"projects/dbnuansateknik","resources":{"hostingSite":"dbnuansateknik","storageBucket":"dbnuansateknik.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_635ecb61-e978-41c2-909a-73d5fecfabed"}
 [info] 
-     ######## #### ########  ######## ########     ###     ######  ########
-     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
-     ######    ##  ########  ######   ########  #########  ######  ######
-     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
-     ##       #### ##     ## ######## ########  ##     ##  ######  ########
-
-You're about to initialize a Firebase project in this directory:
-
-  I:\Main\coding\NUANSA TEKNIK APP\nuansateknikapp
-
+[info] === Deploying to 'dbnuansateknik'...
+[info] 
+[info] i  deploying firestore, functions, hosting 
+[debug] [2022-09-25T08:17:28.941Z] TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at new NodeError (node:internal/errors:372:5)
+    at validateString (node:internal/validators:120:11)
+    at Object.join (node:path:429:7)
+    at Config.path (C:\Users\minrn\AppData\Roaming\npm\node_modules\firebase-tools\lib\config.js:123:45)
+    at getChildEnvironment (C:\Users\minrn\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\lifecycleHooks.js:51:49)
+    at runTargetCommands (C:\Users\minrn\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\lifecycleHooks.js:72:14)
+    at C:\Users\minrn\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\lifecycleHooks.js:124:24
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async chain (C:\Users\minrn\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\index.js:33:9)
+    at async deploy (C:\Users\minrn\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\index.js:67:5)
+[error] 
+[error] Error: An unexpected error has occurred.
