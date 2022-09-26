@@ -7,7 +7,7 @@ const BerandaMain = ({ productData, transactionData }) => {
   return (
     <div>
       <SumCard transactionData={transactionData} />
-      <ChartCard productData={productData} />
+      <ChartCard productData={productData} transactionData={transactionData} />
       <TableTransaction dataSource={transactionData} />
     </div>
   )
