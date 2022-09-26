@@ -5,17 +5,15 @@ import exampleChart from '../../assets/images/dashboard/exampleChart.jpg'
 import IconGreenBox from '../../assets/images/dashboard/icon-green-box.svg'
 import IconOrangeBox from '../../assets/images/dashboard/icon-orange-box.svg'
 import Image from 'next/image'
+import ChartBar from './ChartBar'
 import { Button } from 'antd'
 
-const ChartCard = ({ productData }) => {
-  console.log(productData)
+const ChartCard = ({ productData, transactionData = null }) => {
   return (
     <div id="chart-card">
       <Row gutter={[16, 16]}>
         <Col span={16}>
-          <Card>
-            <Image src={exampleChart} alt="chart" />
-          </Card>
+          <ChartBar transactionData={transactionData} />
         </Col>
         <Col span={8}>
           <Card>
