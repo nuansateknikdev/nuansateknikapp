@@ -82,7 +82,6 @@ const TableTransaction = ({ dataSource }) => {
 
   return (
     <Table
-      bordered
       rowKey={(obj) => obj.id}
       columns={columns}
       dataSource={dataSource}

@@ -4,6 +4,7 @@ import Moment from 'react-moment'
 import TableTransaction from '../../components/TableTransaction'
 
 const BerandaMain = ({ productData, transactionData }) => {
+  console.log(transactionData)
   return (
     <div>
       <SumCard transactionData={transactionData} />

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useAuth } from '../../context/AuthUserContext'
 import Sidebar from '../components/Sidebar'
 import styles from './layout.module.css'
+import { formatDate } from '../utils'
 
 const Layout = ({ id = '', title = '', subTitle = '', children }) => {
   const { authUser, loading } = useAuth()
@@ -22,7 +23,7 @@ const Layout = ({ id = '', title = '', subTitle = '', children }) => {
             {subTitle.length ? <h2>{subTitle}</h2> : null}
           </div>
           <div className={styles.date}>
-            <p>Senin, 29-08-2022</p>
+            <p>{formatDate()}</p>
           </div>
         </div>
         {children}
