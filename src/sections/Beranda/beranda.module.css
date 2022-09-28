@@ -1,0 +1,11 @@
+.tableContainer {
+  padding: 32px;
+}
+.tableTitle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  margin-bottom: 60px;
+  color: #121926;
+}

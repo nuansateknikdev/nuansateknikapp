@@ -31,6 +31,9 @@ const ProdukMain = ({ categoryData, productData }) => {
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [idRecord, setIdRecord] = useState(null)
 
+  const [filterCategoryField, setFilterCategoryField] = useState('')
+  const [searchField, setSearchField] = useState('')
+
   const columns = [
     {
       title: '#',
@@ -53,7 +56,7 @@ const ProdukMain = ({ categoryData, productData }) => {
       },
     },
     {
-      title: 'Nama Produk',
+      title: 'Produk',
       dataIndex: 'name',
       key: 'name',
     },
@@ -71,6 +74,7 @@ const ProdukMain = ({ categoryData, productData }) => {
       title: 'Stok',
       dataIndex: 'stock',
       key: 'stock',
+      sorter: (a, b) => a.stock - b.stock,
     },
     {
       title: 'Harga Beli',
@@ -191,12 +195,59 @@ const ProdukMain = ({ categoryData, productData }) => {
       })
   }
 
+  // FILLTERING PRODUCT BY SEARCH PRODUCT OR CATEGORY
+  const handleFilterCategory = (datas) => {
+    return datas.filter((data) => data.category.id === filterCategoryField)
+  }
+  const handleFilterSearch = (datas) => {
+    return datas.filter((data) =>
+      data.name.toLowerCase().includes(searchField.toLowerCase())
+    )
+  }
+  const handleFilteringProduct = () => {
+    let productFilter = productData
+    if (searchField.length !== 0 && filterCategoryField.length !== 0) {
+      productFilter = handleFilterCategory(productFilter)
+      productFilter = handleFilterSearch(productFilter)
+    } else if (searchField.length) {
+      productFilter = handleFilterSearch(productFilter)
+    } else if (filterCategoryField.length) {
+      productFilter = handleFilterCategory(productFilter)
+    }
+    return productFilter
+  }
+
+  const productFilter =
+    productData !== null ? handleFilteringProduct() : productData
+
+  // FILTERING SEARCH OPTION SUGGESTION BY CATEGORY
+  const handleFilterSearchOption = () => {
+    let searchOption = productData
+    if (filterCategoryField.length !== 0) {
+      searchOption = searchOption.filter(
+        (product) => product.category.id === filterCategoryField
+      )
+    }
+    searchOption = searchOption.map((product) => {
+      return { value: product.name, label: product.name }
+    })
+    return searchOption
+  }
+
+  const searchOptionFilter = productData ? handleFilterSearchOption() : null
+
   return (
     <>
       <div className={styles.actionGroup}>
         <div className={styles.filterGroup}>
-          <SearchProduct />
-          <FilterCategory categoryData={categoryData} />
+          <SearchProduct
+            setSearchField={setSearchField}
+            optionSearchField={searchOptionFilter}
+          />
+          <FilterCategory
+            setFilterCategoryField={setFilterCategoryField}
+            categoryData={categoryData}
+          />
         </div>
         <ButtonIcon
           onClick={() => setModalProductVisible(true)}
@@ -206,7 +257,7 @@ const ProdukMain = ({ categoryData, productData }) => {
           <IconAddSquare />
         </ButtonIcon>
       </div>
-      <Tabel columns={columns} dataSource={productData} />
+      <Tabel columns={columns} dataSource={productFilter} />
       {/* MODAL ADD PRODUCT */}
       <Modal
         centered
