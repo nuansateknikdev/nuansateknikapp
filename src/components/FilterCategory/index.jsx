@@ -7,7 +7,7 @@ const FilterCategory = ({ setFilterCategoryField, categoryData }) => {
       <Select
         size="large"
         allowClear
-        placeholder="--Kategori--"
+        placeholder="Kategori"
         optionFilterProp="children"
         style={{ width: '200px' }}
         onChange={(value) => {

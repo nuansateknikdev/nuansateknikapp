@@ -74,6 +74,7 @@ const ProdukMain = ({ categoryData, productData }) => {
       title: 'Stok',
       dataIndex: 'stock',
       key: 'stock',
+      sorter: (a, b) => a.stock - b.stock,
     },
     {
       title: 'Harga Beli',

@@ -1,27 +1,35 @@
 import { Table } from 'antd'
+import { useRouter } from 'next/router'
 import Moment from 'react-moment'
-import { formatPrice } from '../../utils'
+import { formatDate, formatPrice } from '../../utils'
 import styles from './tableTransaction.module.css'
 
 const TableTransaction = ({ dataSource }) => {
+  const router = useRouter()
+
   const columns = [
     {
-      title: '#',
-      dataIndex: 'no',
-      key: 'no',
-      render: (text, record, index) => {
-        return <span>{index + 1}</span>
-      },
+      title: 'Tanggal',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (createdAt) => (
+        <span>
+          {formatDate(createdAt)}
+          <Moment date={createdAt} format=" HH:mm" />
+        </span>
+      ),
     },
     {
-      title: 'Gambar',
+      title: 'Foto Produk',
       dataIndex: 'products',
       key: 'products',
       render: (products) => (
         <div className={styles.tableThumbnailContainer}>
           {products.map((item, index) => (
             <div key={index} className={styles.tableThumbnailInner}>
-              <p>{item.qty}x</p>
+              <p>{`${item.qty}${
+                item.category.name === 'kabel' ? 'm' : 'x'
+              }`}</p>
               <div className={styles.tableThumbnail}>
                 <img src={item.image} />
               </div>
@@ -43,33 +51,27 @@ const TableTransaction = ({ dataSource }) => {
       ),
     },
     {
-      title: 'Hari dan Tanggal',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (createdAt) => (
-        <span>
-          <Moment date={createdAt} format="dddd, DD-MM-YYYY" />
-        </span>
-      ),
-    },
-    {
-      title: 'Jam',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (createdAt) => (
-        <span>
-          <Moment date={createdAt} format="HH:mm" />
-        </span>
-      ),
-    },
-    {
-      title: 'Kuantitas',
+      title: 'Harga',
       dataIndex: 'products',
       key: 'products',
       render: (products) => (
         <ul style={{ listStyleType: 'none' }}>
           {products.map((item) => (
-            <li key={item.id}>{`${item.qty}x ${item.name}`}</li>
+            <li key={item.id}>Rp {formatPrice(item.sellingPrice)}</li>
+          ))}
+        </ul>
+      ),
+    },
+    {
+      title: 'Banyaknya',
+      dataIndex: 'products',
+      key: 'products',
+      render: (products) => (
+        <ul style={{ listStyleType: 'none' }}>
+          {products.map((item) => (
+            <li key={item.id}>{`${item.qty}${
+              item.category.name === 'kabel' ? 'm' : 'x'
+            }`}</li>
           ))}
         </ul>
       ),
@@ -89,7 +91,11 @@ const TableTransaction = ({ dataSource }) => {
       rowKey={(obj) => obj.id}
       columns={columns}
       dataSource={dataSource}
-      pagination={{ pageSize: 5, position: ['', 'bottomCenter'] }}
+      pagination={
+        router.pathname === '/'
+          ? false
+          : { pageSize: 5, position: ['', 'bottomCenter'] }
+      }
     />
   )
 }

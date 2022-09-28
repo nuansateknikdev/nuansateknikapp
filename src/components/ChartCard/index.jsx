@@ -8,20 +8,8 @@ import { Button } from 'antd'
 import { useEffect, useState } from 'react'
 
 const ChartCard = ({ productData, transactionData = null }) => {
-  const [stockProduct, setStockProduct] = useState([])
-
-  useEffect(() => {
-    let productDatas = []
-
-    productData.map((product) => {
-      productDatas.push(product.stock)
-    })
-
-    setStockProduct(productDatas)
-  }, [])
-
-  const stockReady = stockProduct.filter((stock) => stock >= 10)
-  const stockMinim = stockProduct.filter((stock) => stock < 10)
+  const stockReady = productData.filter((produk) => produk.stock >= 10)
+  const stockMinim = productData.filter((produk) => produk.stock < 10)
 
   return (
     <div id="chart-card">
@@ -43,7 +31,7 @@ const ChartCard = ({ productData, transactionData = null }) => {
                 >
                   <IconGreenBox />
                   <p>{stockReady.length}</p>
-                  <p>items</p>
+                  <p>Barang</p>
                 </div>
                 <div className={styles.cardInfo}>
                   <div className={styles.text}>
@@ -63,7 +51,7 @@ const ChartCard = ({ productData, transactionData = null }) => {
                 >
                   <IconOrangeBox />
                   <p>{stockMinim.length}</p>
-                  <p>items</p>
+                  <p>Barang</p>
                 </div>
                 <div className={styles.cardInfo}>
                   <div className={styles.text}>

@@ -23,7 +23,7 @@ const Layout = ({ id = '', title = '', subTitle = '', children }) => {
             {subTitle.length ? <h2>{subTitle}</h2> : null}
           </div>
           <div className={styles.date}>
-            <p>{formatDate()}</p>
+            <p>{formatDate(new Date())}</p>
           </div>
         </div>
         {children}

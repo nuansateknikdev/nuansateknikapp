@@ -70,6 +70,7 @@ const FormTambahStok = ({ initData = emptyData }) => {
                   size="large"
                   prefix="x"
                   min={1}
+                  max={500}
                   value={addStockVal}
                 />
                 <IcPlusCircle onClick={onbtnPlusClick} />
