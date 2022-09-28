@@ -31,11 +31,11 @@ const TableTransaction = ({ dataSource }) => {
       ),
     },
     {
-      title: 'Nama Produk',
+      title: 'Produk',
       dataIndex: 'products',
       key: 'products',
       render: (products) => (
-        <ul>
+        <ul style={{ marginLeft: '16px' }}>
           {products.map((item) => (
             <li key={item.id}>{item.name}</li>
           ))}
@@ -54,11 +54,13 @@ const TableTransaction = ({ dataSource }) => {
     },
     {
       title: 'Jam',
-      dataIndex: 'time',
-      key: 'time',
-      render: (text, record, index) => {
-        return <span>{index + 1}</span>
-      },
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (createdAt) => (
+        <span>
+          <Moment date={createdAt} format="HH:mm" />
+        </span>
+      ),
     },
     {
       title: 'Kuantitas',
@@ -79,6 +81,8 @@ const TableTransaction = ({ dataSource }) => {
       render: (totalPayment) => <span>Rp {formatPrice(totalPayment)}</span>,
     },
   ]
+
+  console.log(dataSource)
 
   return (
     <Table
