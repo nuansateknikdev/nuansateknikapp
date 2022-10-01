@@ -6,7 +6,6 @@ const SigninMain = () => {
   const { signInAuth } = useAuth()
 
   const onFinish = (values) => {
-    console.log('Success:', values)
     signInAuth(values.email, values.password)
   }
 
