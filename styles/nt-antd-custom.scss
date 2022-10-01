@@ -44,12 +44,24 @@
 
 // custom tabel
 // .ant-table-row:hover {
-//   background-color: #13326b;
+//   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+//     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+//   // transform: scale(1.03);
+//   p {
+//     color: #ffffff;
+//   }
+// }
+
+// .ant-table-row-hover {
+//   border: 5px solid #ffffff;
+// }
+// .ant-table-tbody > tr > td {
+//   border-bottom: 0px;
+// }
+// .ant-table-tbody > tr.ant-table-row:hover > td,
+// .ant-table-tbody > tr > td.ant-table-row-hover {
+//   background: #1e7ff0;
 //   color: #ffffff;
-//   text-shadow: 1px 2px #000000;
-//   box-shadow: 0px 0px 10px #ff0000;
-//   -webkit-box-shadow: 0px 0px 10px #ff0000;
-//   -moz-box-shadow: 0px 0px 10px #ff0000;
 // }
 
 // custom modal
@@ -95,6 +107,7 @@
 // custume Input
 .ant-input,
 .ant-input-number,
+.ant-input-number-affix-wrapper,
 .ant-select-single.ant-select-lg:not(.ant-select-customize-input)
   .ant-select-selector,
 .ant-select-selection-search-input {

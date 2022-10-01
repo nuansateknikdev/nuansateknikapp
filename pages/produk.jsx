@@ -18,7 +18,7 @@ export const getServerSideProps = async () => {
     })
     const queryProduct = query(
       collection(firestore, 'product'),
-      orderBy('createdAt')
+      orderBy('updateAt')
     )
     const querySnapshotsProduct = await getDocs(queryProduct)
     querySnapshotsProduct.forEach((product) => {
@@ -33,6 +33,8 @@ export const getServerSideProps = async () => {
           name: product.data().category.name,
         },
         image: product.data().image,
+        createdAt: product.data().createdAt.toDate().toString(),
+        updateAt: product.data().createdAt.toDate().toString(),
       })
     })
   } catch (err) {
@@ -49,10 +51,14 @@ export const getServerSideProps = async () => {
 }
 
 const Produk = ({ categoryData = null, productData = null }) => {
+  const sortProduct = productData.sort(
+    (a, b) => Number(new Date(b.updateAt)) - Number(new Date(a.updateAt))
+  )
+  console.log(sortProduct)
   return (
     <Layout id="produk-page" title="Produk" subTitle="Daftar nama-nama produk">
       {categoryData !== null && productData !== null ? (
-        <ProdukMain categoryData={categoryData} productData={productData} />
+        <ProdukMain categoryData={categoryData} productData={sortProduct} />
       ) : (
         <Spin spinning={true}></Spin>
       )}

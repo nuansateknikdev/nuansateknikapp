@@ -8,6 +8,7 @@ import {
   query,
   orderBy,
   serverTimestamp,
+  limit,
 } from 'firebase/firestore'
 
 export const getServerSideProps = async () => {
@@ -31,6 +32,8 @@ export const getServerSideProps = async () => {
           name: product.data().category.name,
         },
         image: product.data().image,
+        createdAt: product.data().createdAt.toDate().toString(),
+        updateAt: product.data().createdAt.toDate().toString(),
       })
     })
 
@@ -67,7 +70,8 @@ const Transaksi = ({ productData, transactionData }) => {
     <Layout
       id="transaksi-page"
       title="Transaksi"
-      subTitle="Lihat dan buat transaksi">
+      subTitle="Lihat dan buat transaksi"
+    >
       {productData !== null && transactionData !== null ? (
         <TransaksiMain
           productData={productData}

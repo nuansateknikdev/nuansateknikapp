@@ -30,7 +30,12 @@ const TransaksiMain = ({ productData, transactionData }) => {
         </ButtonIcon>
       </div>
       <p className={styles.tableTittle}>Riwayat Transaksi</p>
-      <TableTransaction dataSource={transactionData} />
+      <TableTransaction
+        dataSource={transactionData.sort(
+          (a, b) =>
+            Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
+        )}
+      />
       <Modal
         id="form-transaksi-modal"
         wrapClassName="form-transaksi-modal"

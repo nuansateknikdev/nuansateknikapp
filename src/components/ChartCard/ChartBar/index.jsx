@@ -63,6 +63,10 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 //   ],
 // }
 const ChartBar = ({ transactionData = [] }) => {
+  transactionData.sort(
+    (a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))
+  )
+
   const [loading, setLoading] = useState(true)
   const [dataChart, setDataChart] = useState({
     labels: [],

@@ -1,14 +1,16 @@
 import { Col, Row } from 'antd'
 import Card from 'antd/lib/card/Card'
 import styles from './chartcard.module.css'
-import exampleChart from '../../assets/images/dashboard/exampleChart.jpg'
 import IconGreenBox from '../../assets/images/dashboard/icon-green-box.svg'
 import IconOrangeBox from '../../assets/images/dashboard/icon-orange-box.svg'
-import Image from 'next/image'
 import ChartBar from './ChartBar'
 import { Button } from 'antd'
+import { useEffect, useState } from 'react'
 
 const ChartCard = ({ productData, transactionData = null }) => {
+  const stockReady = productData.filter((produk) => produk.stock >= 10)
+  const stockMinim = productData.filter((produk) => produk.stock < 10)
+
   return (
     <div id="chart-card">
       <Row gutter={[16, 16]}>
@@ -25,10 +27,11 @@ const ChartCard = ({ productData, transactionData = null }) => {
                   style={{
                     border: '1px solid #6fcf97',
                     background: '#ebfff3',
-                  }}>
+                  }}
+                >
                   <IconGreenBox />
-                  <p>1.291</p>
-                  <p>items</p>
+                  <p>{stockReady.length}</p>
+                  <p>Barang</p>
                 </div>
                 <div className={styles.cardInfo}>
                   <div className={styles.text}>
@@ -44,10 +47,11 @@ const ChartCard = ({ productData, transactionData = null }) => {
                   style={{
                     border: '1px solid #F2C94C',
                     background: '#FFF9E8',
-                  }}>
+                  }}
+                >
                   <IconOrangeBox />
-                  <p>1.291</p>
-                  <p>items</p>
+                  <p>{stockMinim.length}</p>
+                  <p>Barang</p>
                 </div>
                 <div className={styles.cardInfo}>
                   <div className={styles.text}>

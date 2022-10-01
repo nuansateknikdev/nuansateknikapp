@@ -23,6 +23,7 @@ import {
 import styles from './formTransaksi.module.css'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
+import { formatPrice } from '../../../../utils'
 
 const formDataModel = {
   id: null,
@@ -192,7 +193,7 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
       <Spin spinning={loading}>
         <div className={styles.cardTotal}>
           <p>Total Harga</p>
-          <p>Rp {totalPayment}</p>
+          <p>Rp {formatPrice(totalPayment)}</p>
         </div>
         <div className={formVisible ? `` : `d-none`}>
           <div className="form-transaksi__input-proudct">
@@ -209,8 +210,9 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
                 <p>{index + 1}</p>
                 <Select
                   value={product.name}
+                  size="large"
                   showSearch
-                  placeholder="Select a person"
+                  placeholder="Pilih produk"
                   optionFilterProp="children"
                   filterOption={(input, option) =>
                     option.children.toLowerCase().includes(input.toLowerCase())
@@ -228,6 +230,10 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
                   controls={false}
                   size="large"
                   min={0}
+                  formatter={(value) =>
+                    value.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                  }
+                  parser={(value) => value.replace(/\$\s?|(.*)/g, '')}
                   readOnly
                 />
                 <InputNumber
@@ -281,12 +287,17 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
             onChange={(value) => handleInputPayment(value)}
             value={payment}
             controls={false}
+            formatter={(value) => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
             min={0}
+            prefix="Rp "
+            size="large"
+            style={{ width: '100%' }}
             status={isPaymentError ? 'error' : ''}
           />
           <p className="form-transaksi__pembayaran__label">Kembalian</p>
           <div className={`${styles.cardChanges} `}>
-            <p>Rp {refund}</p>
+            <p>Rp {formatPrice(refund)}</p>
           </div>
           <Button
             type="primary"
