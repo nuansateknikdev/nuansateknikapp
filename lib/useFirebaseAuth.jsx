@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth'
+import { message } from 'antd'
 
 const formatAuthUser = (user) => ({
   uid: user.uid,
@@ -35,6 +36,22 @@ export default function useFirebaseAuth() {
 
   const signInAuth = (email, password) =>
     signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user
+        message.success('Login berhasil')
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+
+        if (errorCode === 'auth/user-not-found') {
+          message.error('Email belum terdaftar')
+        } else if (errorCode === 'auth/wrong-password') {
+          message.error('Password salah')
+        } else {
+          message.error(errorCode)
+        }
+      })
 
   const signOutAuth = () => signOut(auth).then(clear)
 
