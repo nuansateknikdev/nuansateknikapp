@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import { useAuth } from '../../../context/AuthUserContext'
 import Logo from '../../assets/logo/logo.svg'
 import MenuItems from './MenuItems'
 import styles from './sidebar.module.css'
+import IcLogout from '../../assets/icons/icLogout.svg'
 import { Button } from 'antd'
 
 const Sidebar = () => {
@@ -16,7 +16,7 @@ const Sidebar = () => {
       <MenuItems />
       <div className={styles.button}>
         <Button block onClick={signOutAuth}>
-          Keluar
+          <IcLogout /> Keluar
         </Button>
       </div>
     </div>

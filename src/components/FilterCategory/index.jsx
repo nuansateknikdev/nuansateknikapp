@@ -3,13 +3,13 @@ const { Option } = Select
 
 const FilterCategory = ({ setFilterCategoryField, categoryData }) => {
   return (
-    <div id="filter-category" className="">
+    <div id="filter-category" style={{ height: '54px' }}>
       <Select
         size="large"
         allowClear
         placeholder="Kategori"
         optionFilterProp="children"
-        style={{ width: '200px' }}
+        style={{ width: '221px', height: '54px' }}
         onChange={(value) => {
           value ? setFilterCategoryField(value) : setFilterCategoryField('')
         }}

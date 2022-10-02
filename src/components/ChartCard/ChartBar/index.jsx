@@ -125,7 +125,9 @@ const ChartBar = ({ transactionData = [] }) => {
     <Card className="chart-card__graph">
       <div className="chart-card__graph__header">
         <h2>Ringkasan Penjualan</h2>
-        <Button>Per tahun</Button>
+        <Button className="chart-card__graph__button" disabled>
+          Per Tahun
+        </Button>
       </div>
       {loading ? (
         <Spin>

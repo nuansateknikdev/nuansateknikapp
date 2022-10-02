@@ -54,7 +54,6 @@ const Produk = ({ categoryData = null, productData = null }) => {
   const sortProduct = productData.sort(
     (a, b) => Number(new Date(b.updateAt)) - Number(new Date(a.updateAt))
   )
-  console.log(sortProduct)
   return (
     <Layout id="produk-page" title="Produk" subTitle="Daftar nama-nama produk">
       {categoryData !== null && productData !== null ? (
