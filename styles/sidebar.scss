@@ -1,3 +1,25 @@
+#sidebar {
+  button {
+    background-color: #f1f1f1;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    transition: ease-in-out;
+    padding: 16px 20px;
+    height: 56px;
+    span {
+      padding-left: 15px;
+    }
+    &:hover {
+      svg {
+        path {
+          fill: #1e7ff0;
+        }
+      }
+    }
+  }
+}
 #sidebar-menu {
   ul {
     li {

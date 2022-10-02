@@ -84,8 +84,6 @@ const TableTransaction = ({ dataSource }) => {
     },
   ]
 
-  console.log(dataSource)
-
   return (
     <Table
       rowKey={(obj) => obj.id}

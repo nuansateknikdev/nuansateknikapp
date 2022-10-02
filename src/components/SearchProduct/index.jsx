@@ -1,5 +1,6 @@
 import { Input, AutoComplete } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
+import IcSearch from '../../assets/icons/ic-search.svg'
 
 const SearchProduct = ({ optionSearchField, setSearchField }) => {
   const handleSearch = (value) => {
@@ -7,7 +8,7 @@ const SearchProduct = ({ optionSearchField, setSearchField }) => {
   }
 
   return (
-    <div id="search-product" className="">
+    <div id="search-product" style={{ width: '356px' }}>
       <AutoComplete
         options={optionSearchField}
         filterOption={(inputValue, option) =>
@@ -20,8 +21,9 @@ const SearchProduct = ({ optionSearchField, setSearchField }) => {
           allowClear
           size="large"
           placeholder="Cari produk"
-          prefix={<SearchOutlined />}
+          prefix={<IcSearch />}
           required
+          style={{ width: '356px', height: '54px' }}
         />
       </AutoComplete>
     </div>
