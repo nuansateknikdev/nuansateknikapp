@@ -11,6 +11,8 @@ const SidebarMobile = () => {
   const [open, setOpen] = useState(false)
   const [openContent, setopenContent] = useState(false)
   const handleOpen = () => {
+    const getBody = document.querySelector('body')
+    getBody.classList.add('menu-navigation--mobile--open')
     setOpen(true)
     setTimeout(() => {
       setopenContent(true)
@@ -18,10 +20,13 @@ const SidebarMobile = () => {
   }
 
   const handleClose = () => {
+    const getBody = document.querySelector('body')
+    getBody.classList.remove('menu-navigation--mobile--open')
+
     setopenContent(false)
     setTimeout(() => {
       setOpen(false)
-    }, 1)
+    }, 200)
   }
   return (
     <div id="menu-navigation--mobile">
