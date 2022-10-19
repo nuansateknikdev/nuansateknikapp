@@ -14,12 +14,14 @@ const SidebarMobile = () => {
     setOpen(true)
     setTimeout(() => {
       setopenContent(true)
-    }, 0.1)
+    }, 1)
   }
 
   const handleClose = () => {
-    setOpen(false)
     setopenContent(false)
+    setTimeout(() => {
+      setOpen(false)
+    }, 1)
   }
   return (
     <div id="menu-navigation--mobile">
