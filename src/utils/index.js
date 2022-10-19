@@ -12,7 +12,6 @@
 
 export const formatDate = (value) => {
   const datetime = new Date(value)
-  console.log(datetime)
 
   // mendapatkan tanggal, bulan, tahun, jam, menit dan detik
   const date = datetime.getDate()
