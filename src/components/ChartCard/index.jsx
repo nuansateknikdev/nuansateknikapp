@@ -14,10 +14,10 @@ const ChartCard = ({ productData, transactionData = null }) => {
   return (
     <div id="chart-card">
       <Row gutter={[16, 16]}>
-        <Col md={24} lg={24} xl={16}>
+        <Col xs={24} md={24} lg={24} xl={16}>
           <ChartBar transactionData={transactionData} />
         </Col>
-        <Col md={24} lg={24} xl={8}>
+        <Col xs={24} md={24} lg={24} xl={8}>
           <Card>
             <div className={styles.cardContainer}>
               <p className={styles.cardTitle}>Gudang</p>

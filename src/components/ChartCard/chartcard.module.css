@@ -66,3 +66,22 @@
     margin-bottom: 40px;
   }
 }
+
+@media (max-width: 1439px) {
+  .cardInner {
+    flex-direction: row;
+    gap: 40px;
+  }
+  .cardTitle {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 575px) {
+  .cardInner {
+    flex-direction: column;
+  }
+  .cardTitle {
+    margin-bottom: 40px;
+  }
+}
