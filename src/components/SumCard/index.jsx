@@ -31,7 +31,7 @@ const SumCard = ({ transactionData }) => {
   return (
     <div id="sum-card">
       <Row gutter={[16, 16]}>
-        <Col span={8}>
+        <Col sm={24} md={24} lg xl={8}>
           <Card>
             <TotalPendapatan />
             <div className={styles.cardInfo}>
@@ -40,7 +40,7 @@ const SumCard = ({ transactionData }) => {
             </div>
           </Card>
         </Col>
-        <Col span={8}>
+        <Col sm={24} md={12} xl={8}>
           <Card>
             <ProdukTerjual />
             <div className={styles.cardInfo}>
@@ -49,7 +49,7 @@ const SumCard = ({ transactionData }) => {
             </div>
           </Card>
         </Col>
-        <Col span={8}>
+        <Col sm={24} md={12} xl={8}>
           <Card>
             <TotalPelanggan />
             <div className={styles.cardInfo}>
