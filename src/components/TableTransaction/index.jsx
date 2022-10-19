@@ -85,16 +85,20 @@ const TableTransaction = ({ dataSource }) => {
   ]
 
   return (
-    <Table
-      rowKey={(obj) => obj.id}
-      columns={columns}
-      dataSource={dataSource}
-      pagination={
-        router.pathname === '/'
-          ? false
-          : { pageSize: 5, position: ['', 'bottomCenter'] }
-      }
-    />
+    <div id="table-transaction">
+      <div className="table-transaction__wrapper">
+        <Table
+          rowKey={(obj) => obj.id}
+          columns={columns}
+          dataSource={dataSource}
+          pagination={
+            router.pathname === '/'
+              ? false
+              : { pageSize: 5, position: ['', 'bottomCenter'] }
+          }
+        />
+      </div>
+    </div>
   )
 }
 

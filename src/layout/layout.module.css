@@ -35,3 +35,14 @@
   font-size: 16px;
   line-height: 19px;
 }
+
+@media (max-width: 1023px) {
+  .container {
+    padding-left: 40px;
+    padding-top: calc(73px + 50px);
+    padding-bottom: 40px;
+    padding-right: 40px;
+    min-height: 860px;
+    overflow: auto;
+  }
+}
