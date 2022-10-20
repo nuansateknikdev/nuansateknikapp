@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useAuth } from '../context/AuthUserContext'
 import SigninMain from '../src/sections/Signin'
 import { Spin } from 'antd'
-
+import Head from 'next/head'
 const Signin = () => {
   const { authUser, loading } = useAuth()
   const router = useRouter()
@@ -14,9 +14,14 @@ const Signin = () => {
   }, [authUser, loading, router])
 
   return !authUser ? (
-    <Spin spinning={loading}>
-      <SigninMain />
-    </Spin>
+    <>
+      <Head>
+        <title>Sign in</title>
+      </Head>
+      <Spin spinning={loading}>
+        <SigninMain />
+      </Spin>
+    </>
   ) : null
 }
 
