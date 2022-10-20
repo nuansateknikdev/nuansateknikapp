@@ -1,9 +1,13 @@
 import { Button, Checkbox, Form, Input } from 'antd'
 import styles from './signin.module.css'
 import { useAuth } from '../../../context/AuthUserContext'
+import { useMediaQuery } from 'react-responsive'
 
 const SigninMain = () => {
   const { signInAuth } = useAuth()
+  const isDesktop = useMediaQuery({
+    query: '(min-width: 1024px)',
+  })
 
   const onFinish = (values) => {
     signInAuth(values.email, values.password)
@@ -14,7 +18,7 @@ const SigninMain = () => {
   }
   return (
     <div id="signin-page" className={styles.signin}>
-      <div className={styles.hero}></div>
+      {isDesktop && <div className={styles.hero}></div>}
       <div className={styles.content}>
         <div className={styles.contentInner}>
           <div className={styles.title}>
