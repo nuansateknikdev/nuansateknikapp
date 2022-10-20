@@ -16,6 +16,8 @@ import Loading from '../src/components/Loading'
 function MyApp({ Component, pageProps }) {
   const [loadingRoute, setLoadingRoute] = useState(false)
   Router.events.on('routeChangeStart', (url) => {
+    const getBody = document.querySelector('body')
+    getBody.classList.remove('menu-navigation--mobile--open')
     console.log('Route is change', url)
     setLoadingRoute(true)
   })
