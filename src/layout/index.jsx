@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '../../context/AuthUserContext'
-import Sidebar from '../components/Sidebar'
 import styles from './layout.module.css'
 import { formatDate } from '../utils'
+import MenuNavigation from '../components/MenuNavigation'
 
 const Layout = ({ id = '', title = '', subTitle = '', children }) => {
   const { authUser, loading } = useAuth()
@@ -15,7 +15,7 @@ const Layout = ({ id = '', title = '', subTitle = '', children }) => {
 
   return authUser ? (
     <div id={`${id}`} style={{ minHeight: '100vh' }}>
-      <Sidebar />
+      <MenuNavigation />
       <main className={styles.container}>
         <div className={styles.header}>
           <div className={styles.title}>

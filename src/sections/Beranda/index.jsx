@@ -12,12 +12,10 @@ const BerandaMain = ({ productData, transactionData }) => {
       <Card>
         <h2 className={styles.tableTitle}>Transaksi Terbaru</h2>
         <TableTransaction
-          dataSource={transactionData
-            .sort(
-              (a, b) =>
-                Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
-            )
-            .slice(0, 5)}
+          dataSource={transactionData.sort(
+            (a, b) =>
+              Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
+          )}
         />
       </Card>
     </div>

@@ -35,3 +35,56 @@
   font-size: 16px;
   line-height: 19px;
 }
+
+@media (max-width: 1023px) {
+  .container {
+    padding-left: 40px;
+    padding-top: calc(73px + 50px);
+    padding-bottom: 40px;
+    padding-right: 40px;
+    min-height: 860px;
+    overflow: auto;
+  }
+}
+
+@media (max-width: 575px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
+    padding-top: calc(73px + 50px);
+    min-height: 860px;
+    overflow: auto;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+
+  .title h1 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 24px;
+    margin-bottom: 0.5rem;
+  }
+
+  .title h2 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    margin-bottom: 20px;
+  }
+
+  .date p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
