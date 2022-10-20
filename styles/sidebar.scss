@@ -79,7 +79,7 @@
     &.menu-navigation__sidebar--open {
       display: block;
       position: fixed;
-      height: 100vh;
+      height: 100%;
       width: 100%;
       left: 0;
       top: 0;
@@ -98,7 +98,7 @@
       justify-content: space-between;
       padding: 20px;
       background-color: #ffff;
-      transition: all 0.1s ease-out;
+      transition: all 0.2s ease-out;
       transform: translateX(-300px);
 
       &.menu-navigation__sidebar__content--open {
@@ -114,4 +114,8 @@
       z-index: 0;
     }
   }
+}
+
+.menu-navigation--mobile--open {
+  overflow: hidden !important;
 }

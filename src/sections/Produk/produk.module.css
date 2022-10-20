@@ -3,10 +3,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 .filterGroup {
   display: flex;
   gap: 15px;
+  flex-wrap: wrap;
 }
 .modalTittle {
   display: flex;
@@ -28,4 +30,10 @@
   width: 70px;
   height: 70px;
   object-fit: cover;
+}
+
+@media only screen and (max-width: 1024px) {
+  .filterGroup {
+    margin-bottom: 15px;
+  }
 }

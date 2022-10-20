@@ -1,7 +1,7 @@
-#table-transaction {
+#table {
   width: 100%;
   overflow: auto;
-  .table-transaction__wrapper {
-    width: 800px;
+  .table__wrapper {
+    min-width: 800px;
   }
 }
