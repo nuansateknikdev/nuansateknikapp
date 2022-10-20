@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 
 .filterGroup {
@@ -36,4 +37,10 @@
   width: 100px;
   height: 100px;
   object-fit: cover;
+}
+
+@media only screen and (max-width: 1024px) {
+  .filterGroup {
+    margin-bottom: 15px;
+  }
 }

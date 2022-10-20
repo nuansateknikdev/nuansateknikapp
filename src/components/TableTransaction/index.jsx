@@ -85,8 +85,8 @@ const TableTransaction = ({ dataSource }) => {
   ]
 
   return (
-    <div id="table-transaction">
-      <div className="table-transaction__wrapper">
+    <div id="table">
+      <div className="table__wrapper">
         <Table
           rowKey={(obj) => obj.id}
           columns={columns}
