@@ -196,67 +196,71 @@ const FromTransaksi = ({ productData = null, updateData = null }) => {
           <p>Rp {formatPrice(totalPayment)}</p>
         </div>
         <div className={formVisible ? `` : `d-none`}>
-          <div className="form-transaksi__input-proudct">
-            <p>#</p>
-            <p>Produk Pesanan</p>
-            <p>Harga</p>
-            <p>Stock</p>
-            <p>Kuantitas</p>
-            <p></p>
+          <div className="form-transaksi__overflow">
+            <div className="form-transaksi__input-proudct">
+              <p>#</p>
+              <p>Produk Pesanan</p>
+              <p>Harga</p>
+              <p>Stock</p>
+              <p>Kuantitas</p>
+              <p></p>
+            </div>
+            {formData.map((product, index) => {
+              return (
+                <div key={index} className="form-transaksi__input-proudct">
+                  <p>{index + 1}</p>
+                  <Select
+                    value={product.name}
+                    size="large"
+                    showSearch
+                    placeholder="Pilih produk"
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    onChange={(value) => handleSelectOnchange(value, index)}
+                  >
+                    {optionsProduct.map((option, indexOption) => (
+                      <Option key={indexOption} value={option.id}>
+                        {option.name}
+                      </Option>
+                    ))}
+                  </Select>
+                  <InputNumber
+                    value={product.sellingPrice}
+                    controls={false}
+                    size="large"
+                    min={0}
+                    formatter={(value) =>
+                      value.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                    }
+                    parser={(value) => value.replace(/\$\s?|(.*)/g, '')}
+                    readOnly
+                  />
+                  <InputNumber
+                    value={product.stock}
+                    controls={false}
+                    size="large"
+                    min={0}
+                    readOnly
+                  />
+                  <InputNumber
+                    onChange={(value) => handleQtyChange(value, index)}
+                    value={product.qty}
+                    controls={false}
+                    size="large"
+                    min={1}
+                    max={product.stock}
+                  />
+                  <MinusCircleOutlined
+                    onClick={() => handleRemoveInputProduct(product.id, index)}
+                  />
+                </div>
+              )
+            })}
           </div>
-          {formData.map((product, index) => {
-            return (
-              <div key={index} className="form-transaksi__input-proudct">
-                <p>{index + 1}</p>
-                <Select
-                  value={product.name}
-                  size="large"
-                  showSearch
-                  placeholder="Pilih produk"
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    option.children.toLowerCase().includes(input.toLowerCase())
-                  }
-                  onChange={(value) => handleSelectOnchange(value, index)}
-                >
-                  {optionsProduct.map((option, indexOption) => (
-                    <Option key={indexOption} value={option.id}>
-                      {option.name}
-                    </Option>
-                  ))}
-                </Select>
-                <InputNumber
-                  value={product.sellingPrice}
-                  controls={false}
-                  size="large"
-                  min={0}
-                  formatter={(value) =>
-                    value.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                  }
-                  parser={(value) => value.replace(/\$\s?|(.*)/g, '')}
-                  readOnly
-                />
-                <InputNumber
-                  value={product.stock}
-                  controls={false}
-                  size="large"
-                  min={0}
-                  readOnly
-                />
-                <InputNumber
-                  onChange={(value) => handleQtyChange(value, index)}
-                  value={product.qty}
-                  controls={false}
-                  size="large"
-                  min={1}
-                  max={product.stock}
-                />
-                <MinusCircleOutlined
-                  onClick={() => handleRemoveInputProduct(product.id, index)}
-                />
-              </div>
-            )
-          })}
 
           <Button
             className="form-transaksi__btn-tambah-produk"

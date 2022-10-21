@@ -1,21 +1,26 @@
 #form-transaksi {
-  .form-transaksi__input-proudct {
-    display: grid;
-    grid-template-columns: 40px 200px 88px 88px 88px 24px;
-    align-items: center;
-    gap: 15px;
+  .form-transaksi__overflow {
+    overflow: auto;
     margin-bottom: 20px;
-    p {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 19px;
-      color: #505359;
+    .form-transaksi__input-proudct {
+      display: grid;
+      grid-template-columns: 40px 200px 88px 88px 88px 24px;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      p {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 19px;
+        color: #505359;
+      }
     }
   }
+
   .form-transaksi__btn-tambah-produk {
-    margin: 20px 0;
+    margin-bottom: 20px;
   }
   .form-transaksi__pembayaran {
     hr {
