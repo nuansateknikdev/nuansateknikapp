@@ -45,5 +45,41 @@
   margin: 0;
 }
 
-.formInput {
+@media (max-width: 1023px) {
+  .signin {
+    grid-template-columns: 1fr;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-image: url('./background.svg');
+    padding: 20px;
+  }
+
+  .content {
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-color: transparent;
+    margin: 0 auto;
+  }
+  .contentInner {
+    background-color: #ffff;
+    padding: 20px;
+    width: 100%;
+    border-radius: 6px;
+  }
+  .title {
+    margin-bottom: 20px;
+  }
+  .title h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .title p {
+    font-size: 16px;
+  }
 }
