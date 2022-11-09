@@ -5,7 +5,7 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { Spin } from 'antd'
 
 export const getServerSideProps = async () => {
-  let categoryData = []
+  let categoryData = [{ id: '1', name: 'Stok Menipis' }]
   let productData = []
   try {
     const q = query(collection(firestore, 'category'), orderBy('name'))
@@ -16,6 +16,7 @@ export const getServerSideProps = async () => {
         name: category.data().name,
       })
     })
+
     const queryProduct = query(
       collection(firestore, 'product'),
       orderBy('updateAt')
