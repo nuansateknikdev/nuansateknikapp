@@ -1,4 +1,5 @@
 import { AuthUserProvider } from '../context/AuthUserContext'
+import { ProductProvider } from '../context/ProductContext'
 import { useState } from 'react'
 import 'antd/dist/antd.css'
 import '../styles/globals.css'
@@ -27,9 +28,11 @@ function MyApp({ Component, pageProps }) {
   })
   return (
     <AuthUserProvider>
-      <Loading loading={loadingRoute}>
-        <Component {...pageProps} />
-      </Loading>
+      <ProductProvider>
+        <Loading loading={loadingRoute}>
+          <Component {...pageProps} />
+        </Loading>
+      </ProductProvider>
     </AuthUserProvider>
   )
 }

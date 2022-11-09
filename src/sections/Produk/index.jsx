@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { CloseCircleOutlined } from '@ant-design/icons'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import IconAddSquare from '../../assets/icons/ic-add-square.svg'
 import ButtonIcon from '../../components/ButtonIcon'
 import FilterCategory from '../../components/FilterCategory'
@@ -18,11 +18,13 @@ import IconEdit from '../../assets/icons/ic-edit.svg'
 import IconTrash from '../../assets/icons/ic-trash.svg'
 import IconTrashXL from '../../assets/icons/ic-trash-xl.svg'
 import { formatPrice } from '../../utils'
+import { useProduct } from '../../../context/ProductContext'
 
 const storageDirectory = '/product/'
 const docRef = 'product'
 
 const ProdukMain = ({ categoryData, productData }) => {
+  const { currentCategoryFilter, setCurrentCategoryFilter } = useProduct()
   const [modalProductVisible, setModalProductVisible] = useState(false)
   const [modalStockVisible, setModalStockVisible] = useState(false)
   const [modalEditVisible, setModalEditVisible] = useState(false)
@@ -31,8 +33,11 @@ const ProdukMain = ({ categoryData, productData }) => {
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [idRecord, setIdRecord] = useState(null)
 
-  const [filterCategoryField, setFilterCategoryField] = useState('')
   const [searchField, setSearchField] = useState('')
+
+  const categoryOptionforAddandUpdate = categoryData.filter(
+    (item) => item.id != '1'
+  )
 
   const columns = [
     {
@@ -96,15 +101,13 @@ const ProdukMain = ({ categoryData, productData }) => {
           <ButtonIcon
             text="Tambah Stok"
             type="primary"
-            onClick={() => handleOnAddStockBtnClick(record.id)}
-          >
+            onClick={() => handleOnAddStockBtnClick(record.id)}>
             <IconAddSquare />
           </ButtonIcon>
           <ButtonIcon
             className="btn-outline"
             text="Edit"
-            onClick={() => handleOnUpdateBtnClick(record.id)}
-          >
+            onClick={() => handleOnUpdateBtnClick(record.id)}>
             <IconEdit />
           </ButtonIcon>
           <ButtonIcon
@@ -112,8 +115,7 @@ const ProdukMain = ({ categoryData, productData }) => {
             text="Hapus"
             onClick={() => {
               setModalDeleteVisible(true), setIdRecord(record.id)
-            }}
-          >
+            }}>
             <IconTrash />
           </ButtonIcon>
         </Space>
@@ -197,7 +199,10 @@ const ProdukMain = ({ categoryData, productData }) => {
 
   // FILLTERING PRODUCT BY SEARCH PRODUCT OR CATEGORY
   const handleFilterCategory = (datas) => {
-    return datas.filter((data) => data.category.id === filterCategoryField)
+    console.log(currentCategoryFilter)
+    if (currentCategoryFilter === '1')
+      return datas.filter((data) => data.stock < 10)
+    return datas.filter((data) => data.category.id === currentCategoryFilter)
   }
   const handleFilterSearch = (datas) => {
     return datas.filter((data) =>
@@ -206,13 +211,15 @@ const ProdukMain = ({ categoryData, productData }) => {
   }
   const handleFilteringProduct = () => {
     let productFilter = productData
-    if (searchField.length !== 0 && filterCategoryField.length !== 0) {
-      productFilter = handleFilterCategory(productFilter)
-      productFilter = handleFilterSearch(productFilter)
-    } else if (searchField.length) {
-      productFilter = handleFilterSearch(productFilter)
-    } else if (filterCategoryField.length) {
-      productFilter = handleFilterCategory(productFilter)
+    if (currentCategoryFilter !== null) {
+      if (searchField.length !== 0 && currentCategoryFilter.length !== 0) {
+        productFilter = handleFilterCategory(productFilter)
+        productFilter = handleFilterSearch(productFilter)
+      } else if (searchField.length) {
+        productFilter = handleFilterSearch(productFilter)
+      } else if (currentCategoryFilter.length) {
+        productFilter = handleFilterCategory(productFilter)
+      }
     }
     return productFilter
   }
@@ -223,10 +230,12 @@ const ProdukMain = ({ categoryData, productData }) => {
   // FILTERING SEARCH OPTION SUGGESTION BY CATEGORY
   const handleFilterSearchOption = () => {
     let searchOption = productData
-    if (filterCategoryField.length !== 0) {
-      searchOption = searchOption.filter(
-        (product) => product.category.id === filterCategoryField
-      )
+    if (currentCategoryFilter !== null) {
+      if (currentCategoryFilter.length !== 0) {
+        searchOption = searchOption.filter(
+          (product) => product.category.id === currentCategoryFilter
+        )
+      }
     }
     searchOption = searchOption.map((product) => {
       return { value: product.name, label: product.name }
@@ -245,15 +254,15 @@ const ProdukMain = ({ categoryData, productData }) => {
             optionSearchField={searchOptionFilter}
           />
           <FilterCategory
-            setFilterCategoryField={setFilterCategoryField}
+            currentCategoryFilter={currentCategoryFilter}
+            setCurrentCategoryFilter={setCurrentCategoryFilter}
             categoryData={categoryData}
           />
         </div>
         <ButtonIcon
           onClick={() => setModalProductVisible(true)}
           type="primary"
-          text="Tambah Produk"
-        >
+          text="Tambah Produk">
           <IconAddSquare />
         </ButtonIcon>
       </div>
@@ -264,10 +273,9 @@ const ProdukMain = ({ categoryData, productData }) => {
         closeIcon={<CloseCircleOutlined style={{ fontSize: 20 }} />}
         visible={modalProductVisible}
         onCancel={() => setModalProductVisible(false)}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Produk</p>
-        <FormProduk categoryData={categoryData} />
+        <FormProduk categoryData={categoryOptionforAddandUpdate} />
       </Modal>
 
       {/* MODAL ADD STOCK */}
@@ -279,8 +287,7 @@ const ProdukMain = ({ categoryData, productData }) => {
           setModalStockVisible(false)
           setUpdateData(null)
         }}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Tambah Stok</p>
         {updateData ? (
           <FormStok initData={updateData} />
@@ -300,11 +307,13 @@ const ProdukMain = ({ categoryData, productData }) => {
           setUpdateData(null)
           setModalEditVisible(false)
         }}
-        footer={false}
-      >
+        footer={false}>
         <p className={styles.modalTittle}>Edit Produk</p>
         {updateData ? (
-          <FormProduk initData={updateData} categoryData={categoryData} />
+          <FormProduk
+            initData={updateData}
+            categoryData={categoryOptionforAddandUpdate}
+          />
         ) : (
           <Spin>
             <FormProduk />
@@ -321,8 +330,7 @@ const ProdukMain = ({ categoryData, productData }) => {
         onOk={() => handleOnDeleteBtnClick(idRecord)}
         okType="danger"
         okText="Hapus"
-        cancelText="Batal"
-      >
+        cancelText="Batal">
         <IconTrashXL />
         <p className={styles.modalDesc}>
           Kamu yakin ingin menghapus produk ini?
